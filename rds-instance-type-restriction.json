@@ -1,0 +1,88 @@
+## DELETE THIS LINE - Sample showing how to restrict instance creation based on db Instance Type.
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowAllActions",
+            "Action": [
+                "rds:*"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Sid": "RestrictDBInstanceType",
+            "Action": [
+                "rds:CreateDBCluster",
+                "rds:ModifyCurrentDBClusterCapacity",
+                "rds:StartDBCluster",
+                "rds:CreateDBInstance",
+                "rds:ModifyDBInstance",
+                "rds:StartDBInstance",
+                "rds:RestoreDBClusterToPointInTime",
+                "rds:RestoreDBInstanceFromDBSnapshot",
+                "rds:CreateDBInstanceReadReplica"
+            ],
+            "Effect": "Deny",
+            "Resource": [
+                "arn:aws:rds:*:*:db:*",
+                "arn:aws:rds:*:*:cluster:*"
+            ],
+            "Condition": {
+                "StringNotEquals": {
+                    "rds:DatabaseClass": [
+                        "db.t2.micro",
+                        "db.t2.small",
+                        "db.t3.nano",
+                        "db.t3.micro",
+                        "db.t3.small"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "RestrictRIPurchase",
+            "Action": [
+                "rds:PurchaseReservedDBInstancesOffering"
+            ],
+            "Effect": "Deny",
+            "Resource": "*"
+        },
+        {
+            "Sid": "DenyPIOPSCreate",
+            "Effect": "Deny",
+            "Action": "rds:CreateDBInstance",
+            "Resource": "*",
+            "Condition": {
+                "NumericNotEquals": {
+                    "rds:Piops": "0"
+                }
+            }
+        },
+        {
+            "Sid": "RestrictStorageSize",
+            "Action": [
+                "rds:CreateDBCluster",
+                "rds:ModifyCurrentDBClusterCapacity",
+                "rds:StartDBCluster",
+                "rds:CreateDBInstance",
+                "rds:ModifyDBInstance",
+                "rds:StartDBInstance",
+                "rds:RestoreDBClusterToPointInTime",
+                "rds:RestoreDBInstanceFromDBSnapshot",
+                "rds:CreateDBInstanceReadReplica"
+            ],
+            "Effect": "Deny",
+            "Resource": [
+                "arn:aws:rds:*:*:db:*",
+                "arn:aws:rds:*:*:cluster:*"
+            ],
+            "Condition": {
+                "NumericGreaterThan": {
+                    "rds:StorageSize": "100"
+                }
+            }
+        }
+    ]
+}
