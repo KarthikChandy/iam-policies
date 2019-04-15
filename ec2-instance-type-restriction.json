@@ -13,6 +13,15 @@
             "Resource": "*"
         },
         {
+            "Sid": "RestrictSpotandRI",
+            "Action": [
+                "ec2:*Spot*",
+                "ec2:*ReservedInstances*"
+            ],
+            "Effect": "Deny",
+            "Resource": "*"
+        },
+        {
             "Sid": "RestrictInstanceTypes",
             "Action": [
                 "ec2:RunInstances",
@@ -36,19 +45,22 @@
             }
         },
         {
-            "Sid": "RestrictSpotandRI",
-            "Action": [
-                "ec2:*Spot*",
-                "ec2:*ReservedInstances*"
-            ],
+            "Sid": "RestrictNonAWSAMIs",
+            "Action": "ec2:RunInstances",
             "Effect": "Deny",
-            "Resource": "*"
+            "Resource": [
+                "arn:aws:ec2:*:*:image/*"
+            ],
+            "Condition": {
+                "StringNotEqualsIgnoreCase": {
+                    "ec2:Owner": "amazon"
+                }
+            }
         },
         {
-            "Sid": "RestrictLargeVolumesCreate",
+            "Sid": "RestrictLargeVolumes",
             "Action": [
-                "ec2:CreateVolume",
-                "ec2:RunInstances"
+                "ec2:CreateVolume"
             ],
             "Effect": "Deny",
             "Resource": "arn:aws:ec2:*:*:volume/*",
@@ -59,17 +71,17 @@
             }
         },
         {
-            "Sid": "RestrictNonAWSAMIs",
-            "Action": "ec2:RunInstances",
-            "Condition": {
-                "StringNotEqualsIgnoreCase": {
-                    "ec2:Owner": "amazon"
-                }
-            },
+            "Sid": "RestrictPIOPSVolumes",
+            "Action": [
+                "ec2:CreateVolume"
+            ],
             "Effect": "Deny",
-            "Resource": [
-                "arn:aws:ec2:*:*:image/*"
-            ]
+            "Resource": "arn:aws:ec2:*:*:volume/*",
+            "Condition": {
+                "StringNotEquals": {
+                    "ec2:VolumeType": "gp2"
+                }
+            }
         }
     ]
 }
