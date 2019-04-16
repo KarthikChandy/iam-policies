@@ -1,0 +1,139 @@
+## DELETE FROM
+# Sample showing how to restrict instance creation based on some conditions.
+# IAM - Permissions restricted to read-only and instance profile.
+# SSM - Read-only access to everything and ful access to use Run Command, Sessions Manager and Automation. No harm and keeps cost low. This will help if environments have restricted SSH\RDP.
+# CloudFormation - read-only
+# CloudWatch - All read-only access
+# ResourceGroups - Read-only
+# FYI - Nested conditions are treated as AND condition and therefore volume conditions for size and type are defined separately. 
+## DELETE TO
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowAllActions",
+            "Action": [
+                "ec2:*",
+                "iam:List*",
+                "iam:Get*",
+                "iam:CreateServiceLinkedRole",
+                "iam:PassRole",
+                "ssm:List*",
+                "ssm:Describe*",
+                "ssm:Get*",
+                "ssm:PutInventory",
+                "ssm:PutComplianceItems",
+                "ssm:PutConfigurePackageResult",
+                "ssm:UpdateAssociationStatus",
+                "ssm:UpdateInstanceAssociationStatus",
+                "ssm:UpdateInstanceInformation",
+                "ssm:CancelCommand",
+                "ssm:SendCommand",
+                "ssm:StartAutomationExecution",
+                "ssm:StartSession",
+                "ssm:TerminateSession",
+                "ssm:ResumeSession",
+                "ssm:DescribeSessions",
+                "ssm:GetConnectionStatus",
+                "cloudformation:List*",
+                "cloudformation:Describe*",
+                "cloudformation:Detect*",
+                "cloudformation:EstimateTemplateCost",
+                "cloudformation:Get*",
+                "cloudwatch:Describe*",
+                "cloudwatch:Get*",
+                "cloudwatch:List*",
+                "logs:List*",
+                "logs:Describe*",
+                "logs:Get*",
+                "logs:StartQuery",
+                "logs:StopQuery",
+                "logs:TestMetricFilter",
+                "logs:FilterLogEvents",
+                "events:Describe*",
+                "events:List*",
+                "events:TestEventPattern",
+                "resource-groups:Get*",
+                "resource-groups:List*",
+                "resource-groups:SearchResources"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Sid": "RestrictSpotandRI",
+            "Action": [
+                "ec2:*Spot*",
+                "ec2:*ReservedInstances*"
+            ],
+            "Effect": "Deny",
+            "Resource": "*"
+        },
+        {
+            "Sid": "RestrictInstanceTypes",
+            "Action": [
+                "ec2:RunInstances",
+                "ec2:StartInstances"
+            ],
+            "Effect": "Deny",
+            "Resource": "arn:aws:ec2:*:*:instance/*",
+            "Condition": {
+                "StringNotEquals": {
+                    "ec2:InstanceType": [
+                        "t2.nano",
+                        "t2.micro",
+                        "t2.small",
+                        "t2.medium",
+                        "t3.nano",
+                        "t3.micro",
+                        "t3.small",
+                        "t3.medium"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "RestrictNonAWSAMIs",
+            "Action": "ec2:RunInstances",
+            "Effect": "Deny",
+            "Resource": [
+                "arn:aws:ec2:*:*:image/*"
+            ],
+            "Condition": {
+                "StringNotEqualsIgnoreCaseIfExists": {
+                    "ec2:Owner": "amazon"
+                }
+            }
+        },
+        {
+            "Sid": "RestrictLargeVolumes",
+            "Action": [
+                "ec2:RunInstances",
+                "ec2:CreateVolume"
+            ],
+            "Effect": "Deny",
+            "Resource": "arn:aws:ec2:*:*:volume/*",
+            "Condition": {
+                "NumericGreaterThanIfExists": {
+                    "ec2:VolumeSize": "20"
+                }
+            }
+        },
+        {
+            "Sid": "RestrictPIOPSVolumes",
+            "Action": [
+                "ec2:RunInstances",
+                "ec2:CreateVolume"
+            ],
+            "Effect": "Deny",
+            "Resource": "arn:aws:ec2:*:*:volume/*",
+            "Condition": {
+                "StringLikeIfExists": {
+                    "ec2:VolumeType": [
+                        "gp2"
+                    ]
+                }
+            }
+        }
+    ]
+}

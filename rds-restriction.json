@@ -1,0 +1,116 @@
+## DELETE FROM
+# Sample showing how to restrict instance creation based on db Instance Type.
+# CloudFormation - read-only
+# CloudWatch - All read-only access
+# ResourceGroups - Read-only
+# Mult-AZ - Some labs may require multi-AZ. If needed delete the following lines
+,
+"BoolIfExists": {
+    "rds:MultiAz": [
+        false
+    ]
+}
+# FYI - Nested conditions are treated as AND condition and therefore volume conditions for size and type are defined separately. 
+## DELETE TO
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowAllActions",
+            "Action": [
+                "rds:Describe*",
+                "rds:List*",
+                "rds:DownloadCompleteDBLogFile",
+                "ec2:Describe*",
+                "iam:List*",
+                "iam:PassRole",
+                "iam:Get*",
+                "cloudformation:List*",
+                "cloudformation:Describe*",
+                "cloudformation:Detect*",
+                "cloudformation:EstimateTemplateCost",
+                "cloudformation:Get*",
+                "cloudwatch:Describe*",
+                "cloudwatch:Get*",
+                "cloudwatch:List*",
+                "logs:List*",
+                "logs:Describe*",
+                "logs:Get*",
+                "logs:StartQuery",
+                "logs:StopQuery",
+                "logs:TestMetricFilter",
+                "logs:FilterLogEvents",
+                "events:Describe*",
+                "events:List*",
+                "events:TestEventPattern",
+                "resource-groups:Get*",
+                "resource-groups:List*",
+                "resource-groups:SearchResources"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Sid": "RestrictRIPurchase",
+            "Action": [
+                "rds:PurchaseReservedDBInstancesOffering"
+            ],
+            "Effect": "Deny",
+            "Resource": "*"
+        },
+        {
+            "Sid": "RestrictRDSPiops",
+            "Effect": "Deny",
+            "Action": [
+                "rds:StartDB*",
+                "rds:Create*",
+                "rds:Modify*",
+                "rds:RestoreDB*",
+                "rds:RebootDBInstance",
+                "rds:CreateDBInstanceReadReplica",
+                "rds:RestoreDBInstanceToPointInTime"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "NumericNotEqualsIfExists": {
+                    "rds:Piops": "0"
+                }
+            }
+        },
+        {
+            "Sid": "RestrictRDSActivity",
+            "Effect": "Allow",
+            "Action": [
+                "rds:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEqualsIfExists": {
+                    "rds:DatabaseClass": [
+                        "db.t2.micro",
+                        "db.t2.small",
+                        "db.t2.medium",
+                        "db.t3.micro",
+                        "db.t3.small",
+                        "db.t3.medium"
+                    ],
+                    "rds:DatabaseEngine": [
+                        "aurora-mysql",
+                        "aurora-postgresql",
+                        "mysql",
+                        "postgres",
+                        "mariadb"
+                    ]
+                },
+                "NumericLessThanIfExists": {
+                    "rds:StorageSize": "101"
+                },
+                "BoolIfExists": {
+                    "rds:MultiAz": [
+                        false
+                    ]
+                }
+            }
+        }
+    ]
+}
