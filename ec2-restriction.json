@@ -128,7 +128,7 @@
             "Effect": "Deny",
             "Resource": "arn:aws:ec2:*:*:volume/*",
             "Condition": {
-                "StringLikeIfExists": {
+                "StringNotLikeIfExists": {
                     "ec2:VolumeType": [
                         "gp2"
                     ]

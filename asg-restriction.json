@@ -130,7 +130,7 @@
             "Effect": "Deny",
             "Resource": "arn:aws:ec2:*:*:volume/*",
             "Condition": {
-                "StringLikeIfExists": {
+                "StringNotLikeIfExists": {
                     "ec2:VolumeType": [
                         "gp2"
                     ]
@@ -138,21 +138,15 @@
             }
         },
         {
-            "Sid": "RestrictPIOPSVolumes",
+            "Sid": "RestrictASGLaunchConfiguration",
             "Action": [
-                "autoscaling:CreateLaunchConfiguration",
-                "autoscaling:CreateAutoScalingGroup",
-                "autoscaling:UpdateAutoScalingGroup",
-                "autoscaling:ExitStandby",
-                "autoscaling:AttachInstances",
-                "autoscaling:PutScalingPolicy",
-                "autoscaling:ExecutePolicy"
+                "autoscaling:CreateLaunchConfiguration"
             ],
             "Effect": "Deny",
             "Resource": "*",
             "Condition": {
                 "StringNotEqualsIfExists": {
-                    "autoscaling:InstanceTypes": [
+                    "autoscaling:InstanceType": [
                         "t2.nano",
                         "t2.micro",
                         "t2.small",
