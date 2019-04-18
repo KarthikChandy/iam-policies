@@ -13,4 +13,4 @@ The purpose is this article is to provide suggestions that will help harden secu
 7. Create a new policy using the policy document generated in the earlier step. </br> **NOTE**: The above tool has been developed independently and may contain some bugs. Therefore, please remember to review the policy once and make sure it covers all required areas.
 8. Finally, the above policy would be good for a security, as it limits a user's actions. However, the policy would have a few limitations. </br> **E.G.**: The policy may capture the *ec2:RunInstances* action. However, how would you specify a list of instance types that could be used? To make it easy to implement these kind of requirements, explore the additional lab policies included in this repository.
 9. Customise the final policy as required before applying the above policy to lab users.
-10. Finally make sure to test your policy before.
+10. Finally make sure to test your policy before relese.
