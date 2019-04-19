@@ -1,17 +1,18 @@
-## DELETE FROM
-# Sample showing how to restrict instance creation based on db Instance Type.
+## START DELETE HERE
+# Sample showing how to restrict RDS instance creation based on certain conditions.
+# Make sure to delete unwanted areas.
 # CloudFormation - read-only
 # CloudWatch - All read-only access
 # ResourceGroups - Read-only
+# RDS actions restricted to db instance type, engine, billing, mult-zone requirements, volume size and type, 
 # Mult-AZ - Some labs may require multi-AZ. If needed delete the following lines
-,
-"BoolIfExists": {
-    "rds:MultiAz": [
-        false
-    ]
-}
-# FYI - Nested conditions are treated as AND condition and therefore volume conditions for size and type are defined separately. 
-## DELETE TO
+    ,
+    "BoolIfExists": {
+        "rds:MultiAz": [
+            false
+        ]
+    }
+## END DELETE HERE
 {
     "Version": "2012-10-17",
     "Statement": [

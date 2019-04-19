@@ -1,12 +1,13 @@
-## DELETE FROM
-# Sample showing how to restrict instance creation based on some conditions.
+## START DELETE HERE
+# Sample AWS IAM policy showing how to restrict EC2 instance creation and start operation based on certain conditions.
+# Make sure to delete unwanted areas.
 # IAM - Permissions restricted to read-only and instance profile.
-# SSM - Read-only access to everything and ful access to use Run Command, Sessions Manager and Automation. No harm and keeps cost low. This will help if environments have restricted SSH\RDP.
-# CloudFormation - read-only
-# CloudWatch - All read-only access
-# ResourceGroups - Read-only
-# FYI - Nested conditions are treated as AND condition and therefore volume conditions for size and type are defined separately. 
-## DELETE TO
+# SSM - Read-only access to everything and full access to use Run Command, Sessions Manager and Automation. No harm and keeps cost low. This will help if environments have restricted SSH\RDP access.
+# CloudFormation - Read-only access
+# CloudWatch - Read-only access
+# ResourceGroups - Read-only access
+# FYI - Nested conditions are evaluated as an AND condition. Therefore volume conditions for size and type are defined separately. 
+## END DELETE HERE
 {
     "Version": "2012-10-17",
     "Statement": [
