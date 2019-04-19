@@ -1,13 +1,6 @@
 ## START DELETE HERE
-# Sample AWS IAM policy showing how to restrict EC2 instance creation, start operation and autoscaling based on certain conditions.
+# Sample AWS IAM policy providing a sandbox environment.
 # Make sure to delete unwanted areas.
-# IAM - Permissions restricted to read-only and instance profile.
-# SSM - Read-only access to everything and full access to use Run Command, Sessions Manager and Automation. No harm and keeps cost low. This will help if environments have restricted SSH\RDP access.
-# CloudFormation - Read-only access
-# CloudWatch - Read-only access
-# ResourceGroups - Read-only access
-# Autoscaling restricted to small instances.
-# FYI - Nested conditions are evaluated as an AND condition. Therefore volume conditions for size and type are defined separately. 
 ## END DELETE HERE
 {
     "Version": "2012-10-17",
@@ -15,53 +8,44 @@
         {
             "Sid": "AllowAllActions",
             "Action": [
-                "autoscaling:*",
-                "ec2:*",
                 "iam:List*",
                 "iam:Get*",
                 "iam:CreateServiceLinkedRole",
                 "iam:PassRole",
-                "ssm:List*",
-                "ssm:Describe*",
-                "ssm:Get*",
-                "ssm:PutInventory",
-                "ssm:PutComplianceItems",
-                "ssm:PutConfigurePackageResult",
-                "ssm:UpdateAssociationStatus",
-                "ssm:UpdateInstanceAssociationStatus",
-                "ssm:UpdateInstanceInformation",
-                "ssm:CancelCommand",
-                "ssm:SendCommand",
-                "ssm:StartAutomationExecution",
-                "ssm:StartSession",
-                "ssm:TerminateSession",
-                "ssm:ResumeSession",
-                "ssm:DescribeSessions",
-                "ssm:GetConnectionStatus",
-                "cloudformation:List*",
-                "cloudformation:Describe*",
-                "cloudformation:Detect*",
-                "cloudformation:EstimateTemplateCost",
-                "cloudformation:Get*",
-                "cloudwatch:Describe*",
-                "cloudwatch:Get*",
-                "cloudwatch:List*",
-                "logs:List*",
-                "logs:Describe*",
-                "logs:Get*",
-                "logs:StartQuery",
-                "logs:StopQuery",
-                "logs:TestMetricFilter",
-                "logs:FilterLogEvents",
-                "events:Describe*",
-                "events:List*",
-                "events:TestEventPattern",
-                "resource-groups:Get*",
-                "resource-groups:List*",
-                "resource-groups:SearchResources",
-                "sns:ListTopics"
+                "ec2:*",
+                "autoscaling:*",
+                "rds:Describe*",
+                "rds:List*",
+                "rds:DownloadCompleteDBLogFile",
+                "ssm:*",
+                "cloudformation:*",
+                "cloudwatch:*",
+                "logs:*",
+                "events:*",
+                "resource-groups:*",
+                "sns:*",
+                "s3:*",
+                "glacier:*",
+                "elasticloadbalancing:*",
+                "route53:*",
+                "lambda:*",
+                "logs:*",
+                "cloudfront:*",
+                "dynamodb:*"
             ],
             "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Deny",
+            "Action": [
+                "route53domains:RegisterDomain",
+                "dynamodb:*Reserved*",
+                "s3:*ObjectLegalHold",
+                "s3:*ObjectRetention",
+                "s3:*BucketObjectLock*",
+                "glacier:*VaultLock"
+            ],
             "Resource": "*"
         },
         {
@@ -179,6 +163,68 @@
                         "t3.micro",
                         "t3.small",
                         "t3.medium"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "RestrictRIPurchase",
+            "Action": [
+                "rds:PurchaseReservedDBInstancesOffering"
+            ],
+            "Effect": "Deny",
+            "Resource": "*"
+        },
+        {
+            "Sid": "RestrictRDSPiops",
+            "Effect": "Deny",
+            "Action": [
+                "rds:StartDB*",
+                "rds:Create*",
+                "rds:Modify*",
+                "rds:RestoreDB*",
+                "rds:RebootDBInstance",
+                "rds:CreateDBInstanceReadReplica",
+                "rds:RestoreDBInstanceToPointInTime"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "NumericNotEqualsIfExists": {
+                    "rds:Piops": "0"
+                }
+            }
+        },
+        {
+            "Sid": "RestrictRDSActivity",
+            "Effect": "Allow",
+            "Action": [
+                "rds:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEqualsIfExists": {
+                    "rds:DatabaseClass": [
+                        "db.t2.micro",
+                        "db.t2.small",
+                        "db.t2.medium",
+                        "db.t3.micro",
+                        "db.t3.small",
+                        "db.t3.medium"
+                    ],
+                    "rds:DatabaseEngine": [
+                        "aurora-mysql",
+                        "aurora-postgresql",
+                        "mysql",
+                        "postgres",
+                        "mariadb"
+                    ]
+                },
+                "NumericLessThanIfExists": {
+                    "rds:StorageSize": "101"
+                },
+                "BoolIfExists": {
+                    "rds:MultiAz": [
+                        false
                     ]
                 }
             }

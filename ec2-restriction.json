@@ -7,6 +7,7 @@
 # CloudWatch - Read-only access
 # ResourceGroups - Read-only access
 # Windows instances need 30GB volumes.
+# SNS read access.
 # FYI - Nested conditions are evaluated as an AND condition. Therefore volume conditions for size and type are defined separately. 
 ## END DELETE HERE
 {
@@ -57,7 +58,8 @@
                 "events:TestEventPattern",
                 "resource-groups:Get*",
                 "resource-groups:List*",
-                "resource-groups:SearchResources"
+                "resource-groups:SearchResources",
+                "sns:ListTopics"
             ],
             "Effect": "Allow",
             "Resource": "*"
@@ -66,10 +68,32 @@
             "Sid": "RestrictSpotandRI",
             "Action": [
                 "ec2:*Spot*",
-                "ec2:*ReservedInstances*"
+                "ec2:*ReservedInstances*",
+                "ec2:*Scheduled*",
+                "ec2:*Purchase*"
             ],
             "Effect": "Deny",
             "Resource": "*"
+        },
+        {
+            "Effect": "Deny",
+            "Action": "ec2:*Instance*",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "ec2:PlacementGroupStrategy": "cluster"
+                }
+            }
+        },
+        {
+            "Effect": "Deny",
+            "Action": "ec2:*Instance*",
+            "Resource": "arn:aws:ec2:*:*:instance/*",
+            "Condition": {
+                "StringNotLike": {
+                    "ec2:Tenancy": "default"
+                }
+            }
         },
         {
             "Sid": "RestrictInstanceTypes",
