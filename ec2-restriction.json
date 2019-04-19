@@ -6,6 +6,7 @@
 # CloudFormation - Read-only access
 # CloudWatch - Read-only access
 # ResourceGroups - Read-only access
+# Windows instances need 30GB volumes.
 # FYI - Nested conditions are evaluated as an AND condition. Therefore volume conditions for size and type are defined separately. 
 ## END DELETE HERE
 {
@@ -116,7 +117,7 @@
             "Resource": "arn:aws:ec2:*:*:volume/*",
             "Condition": {
                 "NumericGreaterThanIfExists": {
-                    "ec2:VolumeSize": "20"
+                    "ec2:VolumeSize": "35"
                 }
             }
         },

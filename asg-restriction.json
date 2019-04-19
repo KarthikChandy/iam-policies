@@ -118,7 +118,7 @@
             "Resource": "arn:aws:ec2:*:*:volume/*",
             "Condition": {
                 "NumericGreaterThanIfExists": {
-                    "ec2:VolumeSize": "20"
+                    "ec2:VolumeSize": "35"
                 }
             }
         },
