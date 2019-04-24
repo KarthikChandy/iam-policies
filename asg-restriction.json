@@ -7,6 +7,7 @@
 # CloudWatch - Read-only access
 # ResourceGroups - Read-only access
 # Autoscaling restricted to small instances.
+# NAT Instances - Creation will fail if the "RestrictPIOPSVolumes" statement below is used. Make sure to remove the statement if NAT instances are needed.
 # FYI - Nested conditions are evaluated as an AND condition. Therefore volume conditions for size and type are defined separately. 
 ## END DELETE HERE
 {

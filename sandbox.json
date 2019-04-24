@@ -1,6 +1,7 @@
 ## START DELETE HERE
 # Sample AWS IAM policy providing a sandbox environment.
 # Make sure to delete unwanted areas.
+# NAT Instances - Creation will fail if the "RestrictPIOPSVolumes" statement below is used. Make sure to remove the statement if NAT instances are needed.
 ## END DELETE HERE
 {
     "Version": "2012-10-17",
@@ -31,21 +32,30 @@
                 "lambda:*",
                 "logs:*",
                 "cloudfront:*",
-                "dynamodb:*"
+                "dynamodb:*",
+                "cloudtrail:GetTrailStatus",
+                "cloudtrail:DescribeTrails",
+                "cloudtrail:LookupEvents",
+                "cloudtrail:ListTags",
+                "cloudtrail:ListPublicKeys",
+                "cloudtrail:GetEventSelectors",
+                "kms:ListAliases"
             ],
             "Effect": "Allow",
             "Resource": "*"
         },
         {
-            "Effect": "Deny",
+            "Sid": "DenyAllActions",
             "Action": [
                 "route53domains:RegisterDomain",
+                "redshift:*Reserved*",
                 "dynamodb:*Reserved*",
                 "s3:*ObjectLegalHold",
                 "s3:*ObjectRetention",
                 "s3:*BucketObjectLock*",
                 "glacier:*VaultLock"
             ],
+            "Effect": "Deny",
             "Resource": "*"
         },
         {
@@ -60,8 +70,9 @@
             "Resource": "*"
         },
         {
-            "Effect": "Deny",
+            "Sid": "RestrictPlacementGroup",
             "Action": "ec2:*Instance*",
+            "Effect": "Deny",
             "Resource": "*",
             "Condition": {
                 "StringEquals": {
@@ -70,8 +81,9 @@
             }
         },
         {
-            "Effect": "Deny",
+            "Sid": "DenyTenancy",
             "Action": "ec2:*Instance*",
+            "Effect": "Deny",
             "Resource": "arn:aws:ec2:*:*:instance/*",
             "Condition": {
                 "StringNotLike": {
@@ -177,7 +189,6 @@
         },
         {
             "Sid": "RestrictRDSPiops",
-            "Effect": "Deny",
             "Action": [
                 "rds:StartDB*",
                 "rds:Create*",
@@ -187,6 +198,7 @@
                 "rds:CreateDBInstanceReadReplica",
                 "rds:RestoreDBInstanceToPointInTime"
             ],
+            "Effect": "Deny",
             "Resource": "*",
             "Condition": {
                 "NumericNotEqualsIfExists": {
@@ -196,10 +208,10 @@
         },
         {
             "Sid": "RestrictRDSActivity",
-            "Effect": "Allow",
             "Action": [
                 "rds:*"
             ],
+            "Effect": "Allow",
             "Resource": "*",
             "Condition": {
                 "StringEqualsIfExists": {
