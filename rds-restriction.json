@@ -4,14 +4,15 @@
 # CloudFormation - read-only
 # CloudWatch - All read-only access
 # ResourceGroups - Read-only
-# RDS actions restricted to db instance type, engine, billing, mult-zone requirements, volume size and type, 
+# RDS actions restricted to db instance type, engine, billing, multi-zone requirements, volume size and type, 
+# Certain RDS activities such as subnet group and security groups access/creation would require EC2 access as well. In this example, EC2 read access and some basic ec2 actions are provided. 
 # Mult-AZ - Some labs may require multi-AZ. If needed delete the following lines
     ,
-    "BoolIfExists": {
-        "rds:MultiAz": [
-            false
-        ]
-    }
+"BoolIfExists": {
+    "rds:MultiAz": [
+        false
+    ]
+}
 ## END DELETE HERE
 {
     "Version": "2012-10-17",
@@ -21,11 +22,65 @@
             "Action": [
                 "rds:Describe*",
                 "rds:List*",
-                "rds:DownloadCompleteDBLogFile",
+                "rds:Download*",
+                "rds:Add*",
+                "rds:RemoveTag*",
+                "rds:RemoveRoleFromDBCluster",
+                "rds:RemoveFromGlobalCluster",
+                "rds:RemoveSourceIdentifierFromSubscription",
+                "rds:RemoveRoleFromDBInstance",
+                "rds:AuthorizeDBSecurityGroupIngress",
+                "rds:CreateDBClusterEndpoint",
+                "rds:CreateDBSubnetGroup",
+                "rds:CreateOptionGroup",
+                "rds:CreateDBClusterParameterGroup",
+                "rds:CreateDBParameterGroup",
+                "rds:CreateDBClusterSnapshot",
+                "rds:CreateDBSecurityGroup",
+                "rds:CreateDBSnapshot",
+                "rds:CreateDBSubnetGroup",
+                "rds:CreateEventSubscription",
+                "rds:Delete*",
+                "rds:ResetDBParameterGroup",
+                "rds:ResetDBClusterParameterGroup",
+                "rds:CopyDBParameterGroup",
+                "rds:ModifyDBClusterParameterGroup",
+                "rds:ModifyDBParameterGroup",
+                "rds:ModifyDBSnapshot",
+                "rds:ModifyDBSnapshotAttribute",
+                "rds:ModifyDBClusterSnapshotAttribute",
+                "rds:ModifyDBSubnetGroup",
+                "rds:ModifyEventSubscription",
+                "rds:ModifyOptionGroup",
+                "rds:ModifyOptionGroup",
+                "rds:ModifyOptionGroup",
+                "rds:CopyDBClusterParameterGroup",
+                "rds:StopDBCluster",
+                "rds:PromoteReadReplica",
+                "rds:FailoverDBCluster",
+                "rds:RevokeDBSecurityGroupIngress",
+                "rds:CopyDBSnapshot",
+                "rds:CopyDBClusterSnapshot",
+                "rds:StopDBInstance",
+                "rds:CopyOptionGroup",
+                "rds:RebootDBInstance",
+                "rds:ApplyPendingMaintenanceAction",
+                "rds:BacktrackDBCluster",
                 "ec2:Describe*",
+                "ec2:Get*",
+                "ec2:List*",
+                "ec2:CreateSecurityGroup*",
+                "ec2:DeleteSecurityGroup",
+                "ec2:AuthorizeSecurityGroupEgress",
+                "ec2:AuthorizeSecurityGroupIngress",
+                "ec2:RevokeSecurityGroupEgress",
+                "ec2:RevokeSecurityGroupIngress",
+                "ec2:UpdateSecurityGroupRuleDescriptionsEgress",
+                "ec2:UpdateSecurityGroupRuleDescriptionsIngress",
                 "iam:List*",
                 "iam:PassRole",
                 "iam:Get*",
+                "tag:*",
                 "cloudformation:List*",
                 "cloudformation:Describe*",
                 "cloudformation:Detect*",
@@ -63,13 +118,18 @@
             "Sid": "RestrictRDSPiops",
             "Effect": "Deny",
             "Action": [
-                "rds:StartDB*",
-                "rds:Create*",
-                "rds:Modify*",
-                "rds:RestoreDB*",
-                "rds:RebootDBInstance",
+                "rds:CreateGlobalCluster",
+                "rds:CreateDBCluster",
+                "rds:CreateDBInstance",
                 "rds:CreateDBInstanceReadReplica",
-                "rds:RestoreDBInstanceToPointInTime"
+                "rds:StartDB*",
+                "rds:ModifyDBCluster",
+                "rds:ModifyCurrentDBClusterCapacity",
+                "rds:ModifyDBClusterEndpoint",
+                "rds:ModifyDBInstance",
+                "rds:ModifyGlobalCluster",
+                "rds:RestoreDB*",
+                "rds:RebootDBInstance"
             ],
             "Resource": "*",
             "Condition": {
@@ -86,14 +146,12 @@
             ],
             "Resource": "*",
             "Condition": {
-                "StringEqualsIfExists": {
+                "ForAnyValue:StringLikeIfExists": {
                     "rds:DatabaseClass": [
-                        "db.t2.micro",
-                        "db.t2.small",
-                        "db.t2.medium",
-                        "db.t3.micro",
-                        "db.t3.small",
-                        "db.t3.medium"
+                        "*.nano",
+                        "*.small",
+                        "*.micro",
+                        "*.medium"
                     ],
                     "rds:DatabaseEngine": [
                         "aurora-mysql",

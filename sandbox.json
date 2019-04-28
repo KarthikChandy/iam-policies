@@ -2,6 +2,7 @@
 # Sample AWS IAM policy providing a sandbox environment.
 # Make sure to delete unwanted areas.
 # NAT Instances - Creation will fail if the "RestrictPIOPSVolumes" statement below is used. Make sure to remove the statement if NAT instances are needed.
+# It is recommended to use this policy along with the managed "ReadOnlyAccess" policy
 ## END DELETE HERE
 {
     "Version": "2012-10-17",
@@ -13,11 +14,55 @@
                 "iam:Get*",
                 "iam:CreateServiceLinkedRole",
                 "iam:PassRole",
+                "tag:*",
                 "ec2:*",
                 "autoscaling:*",
                 "rds:Describe*",
                 "rds:List*",
-                "rds:DownloadCompleteDBLogFile",
+                "rds:Download*",
+                "rds:Add*",
+                "rds:RemoveTag*",
+                "rds:RemoveRoleFromDBCluster",
+                "rds:RemoveFromGlobalCluster",
+                "rds:RemoveSourceIdentifierFromSubscription",
+                "rds:RemoveRoleFromDBInstance",
+                "rds:AuthorizeDBSecurityGroupIngress",
+                "rds:CreateDBClusterEndpoint",
+                "rds:CreateDBSubnetGroup",
+                "rds:CreateOptionGroup",
+                "rds:CreateDBClusterParameterGroup",
+                "rds:CreateDBParameterGroup",
+                "rds:CreateDBClusterSnapshot",
+                "rds:CreateDBSecurityGroup",
+                "rds:CreateDBSnapshot",
+                "rds:CreateDBSubnetGroup",
+                "rds:CreateEventSubscription",
+                "rds:Delete*",
+                "rds:ResetDBParameterGroup",
+                "rds:ResetDBClusterParameterGroup",
+                "rds:CopyDBParameterGroup",
+                "rds:ModifyDBClusterParameterGroup",
+                "rds:ModifyDBParameterGroup",
+                "rds:ModifyDBSnapshot",
+                "rds:ModifyDBSnapshotAttribute",
+                "rds:ModifyDBClusterSnapshotAttribute",
+                "rds:ModifyDBSubnetGroup",
+                "rds:ModifyEventSubscription",
+                "rds:ModifyOptionGroup",
+                "rds:ModifyOptionGroup",
+                "rds:ModifyOptionGroup",
+                "rds:CopyDBClusterParameterGroup",
+                "rds:StopDBCluster",
+                "rds:PromoteReadReplica",
+                "rds:FailoverDBCluster",
+                "rds:RevokeDBSecurityGroupIngress",
+                "rds:CopyDBSnapshot",
+                "rds:CopyDBClusterSnapshot",
+                "rds:StopDBInstance",
+                "rds:CopyOptionGroup",
+                "rds:RebootDBInstance",
+                "rds:ApplyPendingMaintenanceAction",
+                "rds:BacktrackDBCluster",
                 "ssm:*",
                 "cloudformation:*",
                 "cloudwatch:*",
@@ -48,12 +93,13 @@
             "Sid": "DenyAllActions",
             "Action": [
                 "route53domains:RegisterDomain",
-                "redshift:*Reserved*",
                 "dynamodb:*Reserved*",
                 "s3:*ObjectLegalHold",
                 "s3:*ObjectRetention",
                 "s3:*BucketObjectLock*",
-                "glacier:*VaultLock"
+                "glacier:*VaultLock",
+                "redshift:AcceptReservedNodeExchange",
+                "redshift:PurchaseReservedNodeOffering"
             ],
             "Effect": "Deny",
             "Resource": "*"
@@ -100,16 +146,12 @@
             "Effect": "Deny",
             "Resource": "arn:aws:ec2:*:*:instance/*",
             "Condition": {
-                "StringNotEquals": {
+                "ForAnyValue:StringNotLike": {
                     "ec2:InstanceType": [
-                        "t2.nano",
-                        "t2.micro",
-                        "t2.small",
-                        "t2.medium",
-                        "t3.nano",
-                        "t3.micro",
-                        "t3.small",
-                        "t3.medium"
+                        "*.nano",
+                        "*.micro",
+                        "*.small",
+                        "*.medium"
                     ]
                 }
             }
@@ -165,16 +207,12 @@
             "Effect": "Deny",
             "Resource": "*",
             "Condition": {
-                "StringNotEqualsIfExists": {
+                "ForAnyValue:StringNotLike": {
                     "autoscaling:InstanceType": [
-                        "t2.nano",
-                        "t2.micro",
-                        "t2.small",
-                        "t2.medium",
-                        "t3.nano",
-                        "t3.micro",
-                        "t3.small",
-                        "t3.medium"
+                        "*.nano",
+                        "*.small",
+                        "*.micro",
+                        "*.medium"
                     ]
                 }
             }
@@ -190,13 +228,18 @@
         {
             "Sid": "RestrictRDSPiops",
             "Action": [
-                "rds:StartDB*",
-                "rds:Create*",
-                "rds:Modify*",
-                "rds:RestoreDB*",
-                "rds:RebootDBInstance",
+                "rds:CreateGlobalCluster",
+                "rds:CreateDBCluster",
+                "rds:CreateDBInstance",
                 "rds:CreateDBInstanceReadReplica",
-                "rds:RestoreDBInstanceToPointInTime"
+                "rds:StartDB*",
+                "rds:ModifyDBCluster",
+                "rds:ModifyCurrentDBClusterCapacity",
+                "rds:ModifyDBClusterEndpoint",
+                "rds:ModifyDBInstance",
+                "rds:ModifyGlobalCluster",
+                "rds:RestoreDB*",
+                "rds:RebootDBInstance"
             ],
             "Effect": "Deny",
             "Resource": "*",
@@ -214,14 +257,12 @@
             "Effect": "Allow",
             "Resource": "*",
             "Condition": {
-                "StringEqualsIfExists": {
+                "ForAnyValue:StringLikeIfExists": {
                     "rds:DatabaseClass": [
-                        "db.t2.micro",
-                        "db.t2.small",
-                        "db.t2.medium",
-                        "db.t3.micro",
-                        "db.t3.small",
-                        "db.t3.medium"
+                        "*.nano",
+                        "*.small",
+                        "*.micro",
+                        "*.medium"
                     ],
                     "rds:DatabaseEngine": [
                         "aurora-mysql",
