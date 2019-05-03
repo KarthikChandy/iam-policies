@@ -10,13 +10,28 @@
         {
             "Sid": "AllowAllActions",
             "Action": [
+                "tag:*",
+                "ec2:*",
+                "autoscaling:*",
+                "ssm:*",
+                "cloudformation:*",
+                "cloudwatch:*",
+                "logs:*",
+                "events:*",
+                "resource-groups:*",
+                "sns:*",
+                "s3:*",
+                "glacier:*",
+                "elasticloadbalancing:*",
+                "route53:*",
+                "lambda:*",
+                "cloudfront:*",
+                "dynamodb:*",
+                "cloud9:*",
                 "iam:List*",
                 "iam:Get*",
                 "iam:CreateServiceLinkedRole",
                 "iam:PassRole",
-                "tag:*",
-                "ec2:*",
-                "autoscaling:*",
                 "rds:Describe*",
                 "rds:List*",
                 "rds:Download*",
@@ -60,21 +75,6 @@
                 "rds:RebootDBInstance",
                 "rds:ApplyPendingMaintenanceAction",
                 "rds:BacktrackDBCluster",
-                "ssm:*",
-                "cloudformation:*",
-                "cloudwatch:*",
-                "logs:*",
-                "events:*",
-                "resource-groups:*",
-                "sns:*",
-                "s3:*",
-                "glacier:*",
-                "elasticloadbalancing:*",
-                "route53:*",
-                "lambda:*",
-                "logs:*",
-                "cloudfront:*",
-                "dynamodb:*",
                 "cloudtrail:GetTrailStatus",
                 "cloudtrail:DescribeTrails",
                 "cloudtrail:LookupEvents",
@@ -207,8 +207,8 @@
                 "ForAnyValue:StringNotLike": {
                     "autoscaling:InstanceType": [
                         "*.nano",
-                        "*.small",
                         "*.micro",
+                        "*.small",
                         "*.medium"
                     ]
                 }
@@ -257,8 +257,8 @@
                 "ForAnyValue:StringLikeIfExists": {
                     "rds:DatabaseClass": [
                         "*.nano",
-                        "*.small",
                         "*.micro",
+                        "*.small",
                         "*.medium"
                     ],
                     "rds:DatabaseEngine": [
@@ -275,6 +275,25 @@
                 "BoolIfExists": {
                     "rds:MultiAz": [
                         false
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "RestrictCloud9",
+            "Effect": "Deny",
+            "Action": [
+                "cloud9:CreateEnvironmentEC2",
+                "cloud9:UpdateEnvironment"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "ForAnyValue:StringNotLikeIfExists": {
+                    "cloud9:InstanceType": [
+                        "*.nano",
+                        "*.micro",
+                        "*.small",
+                        "*.medium"
                     ]
                 }
             }
