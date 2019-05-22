@@ -30,8 +30,11 @@
                 "cloud9:*",
                 "iam:List*",
                 "iam:Get*",
-                "iam:CreateServiceLinkedRole",
+                "iam:Tag*",
+                "iam:Untag*",
                 "iam:PassRole",
+                "iam:ChangePassword",
+                "iam:CreateAccessKey",
                 "rds:Describe*",
                 "rds:List*",
                 "rds:Download*",
@@ -81,7 +84,8 @@
                 "cloudtrail:ListTags",
                 "cloudtrail:ListPublicKeys",
                 "cloudtrail:GetEventSelectors",
-                "kms:ListAliases"
+                "kms:List*",
+                "kms:Describe*"
             ],
             "Effect": "Allow",
             "Resource": "*"
@@ -90,11 +94,11 @@
             "Sid": "DenyAllActions",
             "Action": [
                 "route53domains:RegisterDomain",
-                "dynamodb:*Reserved*",
                 "s3:*ObjectLegalHold",
                 "s3:*ObjectRetention",
                 "s3:*BucketObjectLock*",
                 "glacier:*VaultLock",
+                "dynamodb:*Reserved*",
                 "redshift:AcceptReservedNodeExchange",
                 "redshift:PurchaseReservedNodeOffering"
             ],
