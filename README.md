@@ -2,6 +2,7 @@
 
 The purpose of this article is to provide suggestions that will help harden security and keep the operating cost low for AWS lab environments.
 Additionally, a few baseline AWS IAM templates are also provided.
+
 **NOTE**: Please refer to the Disclaimer for more information.
 
 ## Recommended Steps
@@ -13,6 +14,6 @@ Additionally, a few baseline AWS IAM templates are also provided.
 5. After you conclude the lab, click the **Stop Recording** button on **Console Recorder for AWS**.  </br> ![StopRecording](images/StopRecording.jpg)
 6. The **AWS IAM** tab will contain the required policy. </br> ![iampolicy](images/IAM-policy.jpg)
 7. Create a new IAM policy using the policy document generated in the earlier step.
-8. The policy generated above could serve as a good starting point to determine the required policy. However, the generated policy may have a few limitations. Some API actions are not captured.</br> **E.G.**: The policy may capture the *ec2:RunInstances* action. However, how would you specify a list of instance types that should be used? To make it easy to implement these kinds of requirements, explore the additional lab policies included in the sample-policies folder.
+8. The policy generated above could serve as an initial starting point to determine the final policy. The generated policy may have a few limitations, as some API actions are not captured.</br> **E.G.**: The policy may capture the *ec2:RunInstances* action. However, how would you specify a list of instance types that should be used? To make it easy to implement these kinds of requirements, explore the additional lab policies included in the sample-policies folder.
 9. Customise the final policy as required.
 10. Finally, make sure you test your policy before release.
