@@ -1,0 +1,64 @@
+## START DELETE HERE
+# Replace "RoleYouWantToGiveAccessTo" with the name of the role you want to give access to.
+# Replace "ServiceRoleYouWantToGiveAccessTo" with the name of the service role you want to give access to.
+# Replace "ServiceName" with the name of the service you want to use. Use lowercase.
+# IMPORTANT: Notice that the "Resource" could use a standard Role. But in the "Condition" we use a Service Role.
+# IAM Role Conditions use AND for multiple conditions.
+# This policy is not applicable for federation.
+## END DELETE HERE
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "IAMRoleActions",
+            "Effect": "Allow",
+            "Action": [
+                "iam:AddRoleToInstanceProfile",
+                "iam:CreateRole",
+                "iam:DeleteRolePolicy",
+                "iam:DeleteRole",
+                "iam:DeleteServiceLinkedRole",
+                "iam:DeleteRolePermissionsBoundary",
+                "iam:PutRolePolicy",
+                "iam:RemoveRoleFromInstanceProfile",
+                "iam:UpdateAssumeRolePolicy",
+                "iam:UpdateRoleDescription",
+                "iam:UpdateRole"
+            ],
+            "Resource": [
+                "arn:aws:iam::*:instance-profile/*",
+                "arn:aws:iam::*:role/RoleYouWantToGiveAccessTo"
+            ],
+            "Condition": {
+                "ArnLikeIfExists": {
+                    "iam:PolicyARN": "arn:aws:iam::aws:policy/service-role/ServiceRoleYouWantToGiveAccessTo"
+                },
+                "StringLikeIfExists": {
+                    "iam:AWSServiceName": "ServiceName.amazonaws.com",
+                    "iam:PassedToService": "ServiceName.amazonaws.com"
+                }
+            }
+        },
+        {
+            "Sid": "ServiceLinkedRoleAndPolicies",
+            "Effect": "Allow",
+            "Action": [
+                "iam:AttachRolePolicy",
+                "iam:CreateServiceLinkedRole",
+                "iam:DetachRolePolicy",
+                "iam:PassRole"
+            ],
+            "Resource": "arn:aws:iam::*:role/RoleYouWantToGiveAccessTo",
+            "Condition": {
+                "ArnLikeIfExists": {
+                    "iam:PolicyARN": "arn:aws:iam::aws:policy/service-role/ServiceRoleYouWantToGiveAccessTo"
+                },
+                "StringLikeIfExists": {
+                    "iam:AWSServiceName": "ServiceName.amazonaws.com",
+                    "iam:PassedToService": "ServiceName.amazonaws.com"
+                }
+            }
+        }
+    ]
+}

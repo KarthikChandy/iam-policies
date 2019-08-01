@@ -12,4 +12,4 @@ I assume no responsibility for errors or omissions in the code or documentation.
 
 In no event shall the I be liable to you or any third parties for any special, punitive, incidental, indirect or consequential damages of any kind, or any damages whatsoever, including, without limitation, those resulting from loss of use, data or profits, whether or not I have been advised of the possibility of such damages, and on any theory of liability, arising out of or in connection with the use of this software.
 
-The use of the software downloaded is done at your own discretion and risk and with the agreement that you will be solely responsible for any damage to your computer system or loss of data that results from such activities.
+The use of the software downloaded is done at your discretion and risk and with the agreement that you will be solely responsible for any damage to your computer system or loss of data that results from such activities.
