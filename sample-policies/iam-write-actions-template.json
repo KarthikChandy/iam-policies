@@ -11,6 +11,23 @@
     "Version": "2012-10-17",
     "Statement": [
         {
+            "Sid": "AllowAllActions",
+            "Action": [
+                "iam:List*",
+                "iam:Get*",
+                "iam:Tag*",
+                "iam:Untag*",
+                "iam:ChangePasword",
+                "iam:CreateAccessKey",
+                "iam:CreateLoginProfile",
+                "iam:DeleteAccessKey",
+                "iam:DeleteLoginProfile",
+                "iam:UpdateAccessKey"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
             "Sid": "IAMRoleActions",
             "Effect": "Allow",
             "Action": [

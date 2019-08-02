@@ -10,24 +10,22 @@
         {
             "Sid": "AllowAllActions",
             "Action": [
-                "tag:*",
-                "ec2:*",
                 "autoscaling:*",
-                "ssm:*",
-                "cloudformation:*",
-                "cloudwatch:*",
-                "logs:*",
-                "events:*",
-                "resource-groups:*",
-                "sns:*",
-                "s3:*",
-                "glacier:*",
-                "elasticloadbalancing:*",
-                "route53:*",
-                "lambda:*",
-                "cloudfront:*",
-                "dynamodb:*",
                 "cloud9:*",
+                "cloudformation:*",
+                "cloudfront:*",
+                "cloudtrail:GetTrailStatus",
+                "cloudtrail:DescribeTrails",
+                "cloudtrail:LookupEvents",
+                "cloudtrail:ListTags",
+                "cloudtrail:ListPublicKeys",
+                "cloudtrail:GetEventSelectors",
+                "cloudwatch:*",
+                "dynamodb:*",
+                "ec2:*",
+                "elasticloadbalancing:*",
+                "events:*",
+                "glacier:*",
                 "iam:List*",
                 "iam:Get*",
                 "iam:Tag*",
@@ -41,6 +39,10 @@
                 "iam:DeleteUser",
                 "iam:UpdateAccessKey",
                 "iam:PassRole",
+                "kms:List*",
+                "kms:Describe*",
+                "lambda:*",
+                "logs:*",
                 "rds:Describe*",
                 "rds:List*",
                 "rds:Download*",
@@ -84,14 +86,12 @@
                 "rds:RebootDBInstance",
                 "rds:ApplyPendingMaintenanceAction",
                 "rds:BacktrackDBCluster",
-                "cloudtrail:GetTrailStatus",
-                "cloudtrail:DescribeTrails",
-                "cloudtrail:LookupEvents",
-                "cloudtrail:ListTags",
-                "cloudtrail:ListPublicKeys",
-                "cloudtrail:GetEventSelectors",
-                "kms:List*",
-                "kms:Describe*"
+                "resource-groups:*",
+                "route53:*",
+                "s3:*",
+                "sns:*",
+                "ssm:*",
+                "tag:*"
             ],
             "Effect": "Allow",
             "Resource": "*"
@@ -99,14 +99,15 @@
         {
             "Sid": "DenyAllActions",
             "Action": [
+                "dynamodb:*Reserved*",
+                "glacier:*VaultLock",
+                "rds:PurchaseReservedDBInstancesOffering",
+                "redshift:AcceptReservedNodeExchange",
+                "redshift:PurchaseReservedNodeOffering",
                 "route53domains:RegisterDomain",
                 "s3:*ObjectLegalHold",
                 "s3:*ObjectRetention",
-                "s3:*BucketObjectLock*",
-                "glacier:*VaultLock",
-                "dynamodb:*Reserved*",
-                "redshift:AcceptReservedNodeExchange",
-                "redshift:PurchaseReservedNodeOffering"
+                "s3:*BucketObjectLock*"
             ],
             "Effect": "Deny",
             "Resource": "*"
@@ -179,8 +180,8 @@
         {
             "Sid": "RestrictLargeVolumes",
             "Action": [
-                "ec2:RunInstances",
-                "ec2:CreateVolume"
+                "ec2:CreateVolume",
+                "ec2:RunInstances"
             ],
             "Effect": "Deny",
             "Resource": "arn:aws:ec2:*:*:volume/*",
@@ -193,8 +194,8 @@
         {
             "Sid": "RestrictPIOPSVolumes",
             "Action": [
-                "ec2:RunInstances",
-                "ec2:CreateVolume"
+                "ec2:CreateVolume",
+                "ec2:RunInstances"
             ],
             "Effect": "Deny",
             "Resource": "arn:aws:ec2:*:*:volume/*",
@@ -208,9 +209,7 @@
         },
         {
             "Sid": "RestrictASGLaunchConfiguration",
-            "Action": [
-                "autoscaling:CreateLaunchConfiguration"
-            ],
+            "Action": "autoscaling:CreateLaunchConfiguration",
             "Effect": "Deny",
             "Resource": "*",
             "Condition": {
@@ -223,14 +222,6 @@
                     ]
                 }
             }
-        },
-        {
-            "Sid": "RestrictRIPurchase",
-            "Action": [
-                "rds:PurchaseReservedDBInstancesOffering"
-            ],
-            "Effect": "Deny",
-            "Resource": "*"
         },
         {
             "Sid": "RestrictRDSPiops",
@@ -258,9 +249,7 @@
         },
         {
             "Sid": "RestrictRDSActivity",
-            "Action": [
-                "rds:*"
-            ],
+            "Action": "rds:*",
             "Effect": "Allow",
             "Resource": "*",
             "Condition": {
