@@ -12,7 +12,10 @@
             "Action": [
                 "autoscaling:*",
                 "cloud9:*",
-                "cloudformation:*",
+                "cloudformation:Describe*",
+                "cloudformation:Detect*",
+                "cloudformation:Get*",
+                "cloudformation:List*",
                 "cloudfront:*",
                 "cloudtrail:GetTrailStatus",
                 "cloudtrail:DescribeTrails",
@@ -110,7 +113,7 @@
             "Resource": "*"
         },
         {
-            "Sid": "RestrictSpotandRI",
+            "Sid": "RestrictEC2SpotandRI",
             "Action": [
                 "ec2:*Spot*",
                 "ec2:*ReservedInstances*",
@@ -121,7 +124,7 @@
             "Resource": "*"
         },
         {
-            "Sid": "RestrictPlacementGroup",
+            "Sid": "RestrictEC2PlacementGroup",
             "Action": "ec2:*Instance*",
             "Effect": "Deny",
             "Resource": "*",
@@ -132,7 +135,7 @@
             }
         },
         {
-            "Sid": "DenyTenancy",
+            "Sid": "DenyEC2Tenancy",
             "Action": "ec2:*Instance*",
             "Effect": "Deny",
             "Resource": "arn:aws:ec2:*:*:instance/*",
@@ -143,7 +146,7 @@
             }
         },
         {
-            "Sid": "RestrictInstanceTypes",
+            "Sid": "RestrictEC2InstanceTypes",
             "Action": [
                 "ec2:RunInstances",
                 "ec2:StartInstances"

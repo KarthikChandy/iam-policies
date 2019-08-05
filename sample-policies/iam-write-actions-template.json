@@ -2,6 +2,8 @@
 # Replace "RoleYouWantToGiveAccessTo" with the name of the role you want to give access to.
 # Replace "ServiceRoleYouWantToGiveAccessTo" with the name of the service role you want to give access to.
 # Replace "ServiceName" with the name of the service you want to use. Use lowercase.
+# Replace "UserName" with the username.
+# Replace "GroupName" with the groupname.
 # IMPORTANT: Notice that the "Resource" could use a standard Role. But in the "Condition" we use a Service Role.
 # IAM Role Conditions use AND for multiple conditions.
 # This policy is not applicable for federation.
@@ -76,6 +78,25 @@
                     "iam:PassedToService": "ServiceName.amazonaws.com"
                 }
             }
+        },
+        {
+            "Sid": "UserGroupActions",
+            "Effect": "Allow",
+            "Action": [
+                "iam:AddUserToGroup",
+                "iam:RemoveUserFromGroup",
+                "iam:UpdateUser",
+                "iam:PutUserPolicy",
+                "iam:DeleteUserPolicy",
+                "iam:AttachUserPolicy",
+                "iam:DeleteUser",
+                "iam:DetachUserPolicy",
+                "iam:CreateUser"
+            ],
+            "Resource": [
+                "arn:aws:iam::*:user/UserName",
+                "arn:aws:iam::*:group/GroupName"
+            ]
         }
     ]
 }
