@@ -6,63 +6,54 @@
 # ResourceGroups - Read-only
 # RDS actions restricted to db instance type, engine, billing, multi-zone requirements, volume size and type, 
 # Certain RDS activities such as subnet group and security groups access/creation would require EC2 access as well. In this example, EC2 read access and some basic ec2 actions are provided. 
-# Mult-AZ - Some labs may require multi-AZ. If needed delete the following lines
-    ,
-"BoolIfExists": {
-    "rds:MultiAz": [
-        false
-    ]
-}
 ## END DELETE HERE
+
 {
     "Version": "2012-10-17",
     "Statement": [
         {
             "Sid": "AllowAllActions",
             "Action": [
-                "rds:Describe*",
-                "rds:List*",
-                "rds:Download*",
-                "rds:Add*",
-                "rds:RemoveTag*",
-                "rds:RemoveRoleFromDBCluster",
-                "rds:RemoveFromGlobalCluster",
-                "rds:RemoveSourceIdentifierFromSubscription",
-                "rds:RemoveRoleFromDBInstance",
+                "rds:ApplyPendingMaintenanceAction",
                 "rds:AuthorizeDBSecurityGroupIngress",
+                "rds:RemoveRoleFromDBInstance",
+                "rds:StopDBInstance",
+                "rds:RebootDBInstance",
+                "rds:*DBSubnetGroup",
+                "rds:*delete*",
+                "rds:RemoveRoleFromDBCluster",
                 "rds:CreateDBClusterEndpoint",
-                "rds:CreateDBSubnetGroup",
-                "rds:CreateOptionGroup",
                 "rds:CreateDBClusterParameterGroup",
-                "rds:CreateDBParameterGroup",
                 "rds:CreateDBClusterSnapshot",
-                "rds:CreateDBSecurityGroup",
-                "rds:CreateDBSnapshot",
-                "rds:CreateEventSubscription",
-                "rds:Delete*",
-                "rds:ResetDBParameterGroup",
                 "rds:ResetDBClusterParameterGroup",
-                "rds:CopyDBParameterGroup",
                 "rds:ModifyDBClusterParameterGroup",
-                "rds:ModifyDBParameterGroup",
-                "rds:ModifyDBSnapshot",
-                "rds:ModifyDBSnapshotAttribute",
                 "rds:ModifyDBClusterSnapshotAttribute",
-                "rds:ModifyDBSubnetGroup",
-                "rds:ModifyEventSubscription",
-                "rds:ModifyOptionGroup",
                 "rds:CopyDBClusterParameterGroup",
                 "rds:StopDBCluster",
-                "rds:PromoteReadReplica",
                 "rds:FailoverDBCluster",
-                "rds:RevokeDBSecurityGroupIngress",
-                "rds:CopyDBSnapshot",
                 "rds:CopyDBClusterSnapshot",
-                "rds:StopDBInstance",
-                "rds:CopyOptionGroup",
-                "rds:RebootDBInstance",
-                "rds:ApplyPendingMaintenanceAction",
                 "rds:BacktrackDBCluster",
+                "rds:Describe*",
+                "rds:Download*",
+                "rds:*GlobalCluster",
+                "rds:List*",
+                "rds:*OptionGroup",
+                "rds:*ParameterGroup",
+                "rds:PromoteReadReplica",
+                "rds:*Role*",
+                "rds:*SecurityGroup*",
+                "rds:*Snapshot*",
+                "rds:Start*",
+                "rds:*Subscription",
+                "rds:*Tag*",
+                "cloudformation:List*",
+                "cloudformation:Describe*",
+                "cloudformation:Detect*",
+                "cloudformation:EstimateTemplateCost",
+                "cloudformation:Get*",
+                "cloudwatch:Describe*",
+                "cloudwatch:Get*",
+                "cloudwatch:List*",
                 "ec2:Describe*",
                 "ec2:Get*",
                 "ec2:List*",
@@ -74,18 +65,11 @@
                 "ec2:RevokeSecurityGroupIngress",
                 "ec2:UpdateSecurityGroupRuleDescriptionsEgress",
                 "ec2:UpdateSecurityGroupRuleDescriptionsIngress",
+                "events:Describe*",
+                "events:List*",
+                "events:TestEventPattern",
                 "iam:List*",
-                "iam:PassRole",
                 "iam:Get*",
-                "tag:*",
-                "cloudformation:List*",
-                "cloudformation:Describe*",
-                "cloudformation:Detect*",
-                "cloudformation:EstimateTemplateCost",
-                "cloudformation:Get*",
-                "cloudwatch:Describe*",
-                "cloudwatch:Get*",
-                "cloudwatch:List*",
                 "logs:List*",
                 "logs:Describe*",
                 "logs:Get*",
@@ -93,23 +77,89 @@
                 "logs:StopQuery",
                 "logs:TestMetricFilter",
                 "logs:FilterLogEvents",
-                "events:Describe*",
-                "events:List*",
-                "events:TestEventPattern",
                 "resource-groups:Get*",
                 "resource-groups:List*",
-                "resource-groups:SearchResources"
+                "resource-groups:SearchResources",
+                "tag:*"
             ],
             "Effect": "Allow",
             "Resource": "*"
         },
         {
-            "Sid": "RestrictRIPurchase",
+            "Sid": "RestrictRDSActivity",
+            "Effect": "Allow",
             "Action": [
-                "rds:PurchaseReservedDBInstancesOffering"
+                "rds:CreateDBInstance",
+                "rds:CreateDBInstanceReadReplica",
+                "rds:StartDBInstance",
+                "rds:ModifyDBInstance",
+                "rds:RebootDBInstance",
+                "rds:RestoreDBInstanceFromDBSnapshot",
+                "rds:RestoreDBInstanceFromS3",
+                "rds:RestoreDBInstanceToPointInTime",
+                "rds:CreateDBCluster",
+                "rds:StartDBCluster",
+                "rds:ModifyDBCluster",
+                "rds:ModifyDBClusterEndpoint",
+                "rds:CreateDBClusterParameterGroup",
+                "rds:ModifyDBClusterParameterGroup",
+                "rds:ModifyGlobalCluster",
+                "rds:ResetDBClusterParameterGroup",
+                "rds:RestoreDBClusterFromS3",
+                "rds:RestoreDBClusterFromSnapshot",
+                "rds:ModifyCurrentDBClusterCapacity",
+                "rds:PromoteReadReplicaDBCluster",
+                "rds:CreateDBParameterGroup",
+                "rds:ModifyDBParameterGroup",
+                "rds:ResetDBParameterGroup",
+                "rds:CreateOptionGroup",
+                "rds:ModifyOptionGroup",
+                "rds:PromoteReadReplica",
+                "rds:ModifyDBSubnetGroup"
             ],
-            "Effect": "Deny",
-            "Resource": "*"
+            "Resource": "*",
+            "Condition": {
+                "ForAnyValue:StringLikeIfExists": {
+                    "rds:DatabaseClass": [
+                        "*.nano",
+                        "*.micro",
+                        "*.small",
+                        "*.medium"
+                    ],
+                    "rds:DatabaseEngine": [
+                        "aurora-mysql",
+                        "aurora-postgresql",
+                        "mysql",
+                        "postgres",
+                        "mariadb"
+                    ]
+                },
+                "NumericLessThanIfExists": {
+                    "rds:StorageSize": "101"
+                },
+                "BoolIfExists": {
+                    "rds:MultiAz": [
+                        false
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "RDSRoleAndPolicies",
+            "Effect": "Allow",
+            "Action": [
+                "iam:AttachRolePolicy",
+                "iam:CreateServiceLinkedRole",
+                "iam:DetachRolePolicy",
+                "iam:PassRole"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringLikeIfExists": {
+                    "iam:AWSServiceName": "rds.amazonaws.com",
+                    "iam:PassedToService": "rds.amazonaws.com"
+                }
+            }
         },
         {
             "Sid": "RestrictRDSPiops",
@@ -136,37 +186,12 @@
             }
         },
         {
-            "Sid": "RestrictRDSActivity",
-            "Effect": "Allow",
+            "Sid": "RestrictRIPurchase",
             "Action": [
-                "rds:*"
+                "rds:PurchaseReservedDBInstancesOffering"
             ],
-            "Resource": "*",
-            "Condition": {
-                "ForAnyValue:StringLikeIfExists": {
-                    "rds:DatabaseClass": [
-                        "*.nano",
-                        "*.small",
-                        "*.micro",
-                        "*.medium"
-                    ],
-                    "rds:DatabaseEngine": [
-                        "aurora-mysql",
-                        "aurora-postgresql",
-                        "mysql",
-                        "postgres",
-                        "mariadb"
-                    ]
-                },
-                "NumericLessThanIfExists": {
-                    "rds:StorageSize": "101"
-                },
-                "BoolIfExists": {
-                    "rds:MultiAz": [
-                        false
-                    ]
-                }
-            }
+            "Effect": "Deny",
+            "Resource": "*"
         }
     ]
 }

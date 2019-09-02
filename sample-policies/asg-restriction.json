@@ -1,29 +1,107 @@
 ## START DELETE HERE
-# Sample AWS IAM policy showing how to restrict EC2 instance creation, start operation and autoscaling based on certain conditions.
-# Make sure to delete unwanted areas.
-# IAM - Permissions restricted to read-only and instance profile.
-# SSM - Read-only access to everything and full access to use Run Command, Sessions Manager and Automation. No harm and keeps cost low. This will help if environments have restricted SSH\RDP access.
-# CloudFormation - Read-only access
-# CloudWatch - Read-only access
-# ResourceGroups - Read-only access
-# Autoscaling restricted to small instances.
-# NAT Instances - Creation will fail if the "RestrictPIOPSVolumes" statement below is used. Make sure to remove the statement if NAT instances are needed.
-# FYI - Nested conditions are evaluated as an AND condition. Therefore volume conditions for size and type are defined separately. 
+# EC2 based permissions have been added.
 # Unfortunately at this stage, we cannot restrict LaunchTemplate actions based on instance type.
 ## END DELETE HERE
+
 {
     "Version": "2012-10-17",
     "Statement": [
         {
             "Sid": "AllowAllActions",
+            "Effect": "Allow",
             "Action": [
-                "autoscaling:*",
-                "ec2:*",
+                "autoscaling:AttachInstances",
+                "autoscaling:*AutoScalingGroup",
+                "autoscaling:Describe*",
+                "autoscaling:DetachInstances",
+                "autoscaling:*Tags",
+                "autoscaling:*Configuration",
+                "autoscaling:*Hook",
+                "autoscaling:*Lifecycle*",
+                "autoscaling:*LoadBalancer*",
+                "autoscaling:*Metrics*",
+                "autoscaling:*Policy",
+                "autoscaling:*Processes",
+                "autoscaling:*Standby",
+                "autoscaling:*Scheduled*",
+                "autoscaling:SetInstanceHealth",
+                "autoscaling:SetDesiredCapacity",
+                "autoscaling:SetInstanceProtection",
+                "cloudformation:List*",
+                "cloudformation:Describe*",
+                "cloudformation:Detect*",
+                "cloudformation:EstimateTemplateCost",
+                "cloudformation:Get*",
+                "cloudwatch:Describe*",
+                "cloudwatch:Get*",
+                "cloudwatch:List*",
+                "ec2:*Address*",
+                "ec2:Cancel*",
+                "ec2:Describe*",
+                "ec2:*Gateway",
+                "ec2:Get*",
+                "ec2:*Image*",
+                "ec2:*Network*",
+                "ec2:*Route*",
+                "ec2:*SecurityGroup*",
+                "ec2:*Snapshot*",
+                "ec2:*Subnet*",
+                "ec2:*Vpc*",
+                "ec2:*Vpn*",
+                "ec2:DeleteFleets",
+                "ec2:ResetEbsDefaultKmsKeyId",
+                "ec2:ReportInstanceStatus",
+                "ec2:ImportKeyPair",
+                "ec2:StopInstances",
+                "ec2:ProvisionByoipCidr",
+                "ec2:WithdrawByoipCidr",
+                "ec2:AssociateDhcpOptions",
+                "ec2:ConfirmProductInstance",
+                "ec2:ConfirmProductInstance",
+                "ec2:ModifyFpgaImageAttribute",
+                "ec2:EnableEbsEncryptionByDefault",
+                "ec2:SendDiagnosticInterrupt",
+                "ec2:AssociateIamInstanceProfile",
+                "ec2:ReplaceIamInstanceProfileAssociation",
+                "ec2:CreateDhcpOptions",
+                "ec2:DeleteDhcpOptions",
+                "ec2:CreateKeyPair",
+                "ec2:DeleteKeyPair",
+                "ec2:BundleInstance",
+                "ec2:CreateTags",
+                "ec2:DisassociateIamInstanceProfile",
+                "ec2:AttachVolume",
+                "ec2:CreateInstanceExportTask",
+                "ec2:MonitorInstances",
+                "ec2:UnmonitorInstances",
+                "ec2:DetachVolume",
+                "ec2:DeleteVolume",
+                "ec2:DeleteLaunchTemplate*",
+                "ec2:CreateFlowLogs",
+                "ec2:DeleteFlowLogs",
+                "ec2:ModifyIdentityIdFormat",
+                "ec2:ModifyIdFormat",
+                "ec2:AdvertiseByoipCidr",
+                "ec2:DeprovisionByoipCidr",
+                "ec2:DeleteTags",
+                "ec2:TerminateInstances",
+                "ec2:DisableEbsEncryptionByDefault",
+                "ec2:ModifyEbsDefaultKmsKeyId",
+                "events:Describe*",
+                "events:List*",
+                "events:TestEventPattern",
                 "iam:List*",
                 "iam:Get*",
-                "iam:CreateServiceLinkedRole",
-                "iam:PassRole",
-                "tag:*",
+                "logs:List*",
+                "logs:Describe*",
+                "logs:Get*",
+                "logs:StartQuery",
+                "logs:StopQuery",
+                "logs:TestMetricFilter",
+                "logs:FilterLogEvents",
+                "resource-groups:Get*",
+                "resource-groups:List*",
+                "resource-groups:SearchResources",
                 "ssm:List*",
                 "ssm:Describe*",
                 "ssm:Get*",
@@ -41,147 +119,104 @@
                 "ssm:ResumeSession",
                 "ssm:DescribeSessions",
                 "ssm:GetConnectionStatus",
-                "cloudformation:List*",
-                "cloudformation:Describe*",
-                "cloudformation:Detect*",
-                "cloudformation:EstimateTemplateCost",
-                "cloudformation:Get*",
-                "cloudwatch:Describe*",
-                "cloudwatch:Get*",
-                "cloudwatch:List*",
-                "logs:List*",
-                "logs:Describe*",
-                "logs:Get*",
-                "logs:StartQuery",
-                "logs:StopQuery",
-                "logs:TestMetricFilter",
-                "logs:FilterLogEvents",
-                "events:Describe*",
-                "events:List*",
-                "events:TestEventPattern",
-                "resource-groups:Get*",
-                "resource-groups:List*",
-                "resource-groups:SearchResources",
-                "sns:ListTopics"
+                "sns:ListTopics",
+                "tag:*"
             ],
-            "Effect": "Allow",
             "Resource": "*"
         },
         {
+            "Sid": "RestrictInstanceActions",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateVolume",
+                "ec2:ModifyVolume",
+                "ec2:ImportVolume",
+                "ec2:ModifyVolumeAttribute",
+                "ec2:ModifyFleet",
+                "ec2:ImportSnapshot",
+                "ec2:ResetInstanceAttribute",
+                "ec2:CreateFleet",
+                "ec2:CreateLaunchTemplateVersion",
+                "ec2:EnableVolumeIO",
+                "ec2:CreateLaunchTemplate",
+                "ec2:ImportInstance",
+                "ec2:ModifyInstanceCreditSpecification",
+                "ec2:ModifyLaunchTemplate",
+                "ec2:ModifyInstanceAttribute",
+                "ec2:RebootInstances",
+                "ec2:RunInstances",
+                "ec2:StartInstances"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEqualsIfExists": {
+                    "ec2:Owner": "amazon"
+                },
+                "ForAllValues:StringLikeIfExists": {
+                    "ec2:InstanceType": [
+                        "*.nano",
+                        "*.micro",
+                        "*.small"
+                    ],
+                    "ec2:Tenancy": "default"
+                },
+                "StringNotEqualsIfExists": {
+                    "ec2:PlacementGroupStrategy": "cluster"
+                },
+                "StringNotEqualsIgnoreCaseIfExists": {
+                    "ec2:VolumeType": [
+                        "io1",
+                        "st1"
+                    ]
+                },
+                "NumericLessThanEqualsIfExists": {
+                    "ec2:VolumeSize": "35"
+                }
+            }
+        },
+        {
             "Sid": "RestrictSpotandRI",
+            "Effect": "Deny",
             "Action": [
                 "ec2:*Spot*",
                 "ec2:*ReservedInstances*",
                 "ec2:*Scheduled*",
                 "ec2:*Purchase*"
             ],
-            "Effect": "Deny",
             "Resource": "*"
         },
         {
-            "Effect": "Deny",
-            "Action": "ec2:*Instance*",
+            "Sid": "RestrictASLCInstanceType",
+            "Effect": "Allow",
+            "Action": "autoscaling:CreateLaunchConfiguration",
             "Resource": "*",
             "Condition": {
-                "StringEquals": {
-                    "ec2:PlacementGroupStrategy": "cluster"
-                }
-            }
-        },
-        {
-            "Effect": "Deny",
-            "Action": "ec2:*Instance*",
-            "Resource": "arn:aws:ec2:*:*:instance/*",
-            "Condition": {
-                "StringNotLike": {
-                    "ec2:Tenancy": "default"
-                }
-            }
-        },
-        {
-            "Sid": "RestrictInstanceTypes",
-            "Action": [
-                "ec2:RunInstances",
-                "ec2:StartInstances"
-            ],
-            "Effect": "Deny",
-            "Resource": "arn:aws:ec2:*:*:instance/*",
-            "Condition": {
-                "StringNotEquals": {
-                    "ec2:InstanceType": [
-                        "t2.nano",
-                        "t2.micro",
-                        "t2.small",
-                        "t2.medium",
-                        "t3.nano",
-                        "t3.micro",
-                        "t3.small",
-                        "t3.medium"
+                "ForAnyValue:StringNotLikeIfExists": {
+                    "autoscaling:InstanceType": [
+                        "*.nano",
+                        "*.micro",
+                        "*.small"
                     ]
                 }
             }
         },
         {
-            "Sid": "RestrictNonAWSAMIs",
-            "Action": "ec2:RunInstances",
-            "Effect": "Deny",
-            "Resource": [
-                "arn:aws:ec2:*:*:image/*"
-            ],
-            "Condition": {
-                "StringNotEqualsIgnoreCaseIfExists": {
-                    "ec2:Owner": "amazon"
-                }
-            }
-        },
-        {
-            "Sid": "RestrictLargeVolumes",
+            "Sid": "RestrictASGInstanceTypeAndNo",
+            "Effect": "Allow",
             "Action": [
-                "ec2:RunInstances",
-                "ec2:CreateVolume"
+                "autoscaling:UpdateAutoScalingGroup",
+                "autoscaling:CreateAutoScalingGroup"
             ],
-            "Effect": "Deny",
-            "Resource": "arn:aws:ec2:*:*:volume/*",
+            "Resource": "*",
             "Condition": {
                 "NumericGreaterThanIfExists": {
-                    "ec2:VolumeSize": "35"
-                }
-            }
-        },
-        {
-            "Sid": "RestrictPIOPSVolumes",
-            "Action": [
-                "ec2:RunInstances",
-                "ec2:CreateVolume"
-            ],
-            "Effect": "Deny",
-            "Resource": "arn:aws:ec2:*:*:volume/*",
-            "Condition": {
-                "StringNotLikeIfExists": {
-                    "ec2:VolumeType": [
-                        "gp2"
-                    ]
-                }
-            }
-        },
-        {
-            "Sid": "RestrictASGLaunchConfiguration",
-            "Action": [
-                "autoscaling:CreateLaunchConfiguration"
-            ],
-            "Effect": "Deny",
-            "Resource": "*",
-            "Condition": {
-                "StringNotEqualsIfExists": {
-                    "autoscaling:InstanceType": [
-                        "t2.nano",
-                        "t2.micro",
-                        "t2.small",
-                        "t2.medium",
-                        "t3.nano",
-                        "t3.micro",
-                        "t3.small",
-                        "t3.medium"
+                    "autoscaling:MaxSize": "5"
+                },
+                "ForAnyValue:StringNotLikeIfExists": {
+                    "autoscaling:InstanceTypes": [
+                        "*.nano",
+                        "*.micro",
+                        "*.small"
                     ]
                 }
             }
