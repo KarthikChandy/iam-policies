@@ -87,6 +87,21 @@
                 "ec2:TerminateInstances",
                 "ec2:DisableEbsEncryptionByDefault",
                 "ec2:ModifyEbsDefaultKmsKeyId",
+                "elasticloadbalancing:AddListenerCertificates",
+                "elasticloadbalancing:Modify*",
+                "elasticloadbalancing:RegisterTargets",
+                "elasticloadbalancing:Set*",
+                "elasticloadbalancing:RemoveListenerCertificates",
+                "elasticloadbalancing:DeleteLoadBalancer",
+                "elasticloadbalancing:Describe*",
+                "elasticloadbalancing:CreateListener",
+                "elasticloadbalancing:CreateRule",
+                "elasticloadbalancing:DeleteRule",
+                "elasticloadbalancing:CreateLoadBalancer",
+                "elasticloadbalancing:*TargetGroup",
+                "elasticloadbalancing:DeregisterTargets",
+                "elasticloadbalancing:*Tags",
+                "elasticloadbalancing:DeleteListener",
                 "events:Describe*",
                 "events:List*",
                 "events:TestEventPattern",
@@ -119,7 +134,21 @@
                 "ssm:ResumeSession",
                 "ssm:DescribeSessions",
                 "ssm:GetConnectionStatus",
-                "sns:ListTopics",
+                "sns:TagResource",
+                "sns:Delete*",
+                "sns:List*",
+                "sns:Unsubscribe",
+                "sns:Set*",
+                "sns:UntagResource",
+                "sns:OptInPhoneNumber",
+                "sns:CheckIfPhoneNumberIsOptedOut",
+                "sns:Publish",
+                "sns:Subscribe",
+                "sns:ConfirmSubscription",
+                "sns:RemovePermission",
+                "sns:Get*",
+                "sns:Create*",
+                "sns:AddPermission",
                 "tag:*"
             ],
             "Resource": "*"
@@ -210,13 +239,36 @@
             "Resource": "*",
             "Condition": {
                 "NumericGreaterThanIfExists": {
-                    "autoscaling:MaxSize": "5"
+                    "autoscaling:MaxSize": "6"
                 },
                 "ForAnyValue:StringNotLikeIfExists": {
                     "autoscaling:InstanceTypes": [
                         "*.nano",
                         "*.micro",
                         "*.small"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "ServiceLinkedRoleAndPolicies",
+            "Effect": "Allow",
+            "Action": [
+                "iam:AttachRolePolicy",
+                "iam:CreateServiceLinkedRole",
+                "iam:DetachRolePolicy",
+                "iam:PassRole"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringLikeIfExists": {
+                    "iam:AWSServiceName": [
+                        "elasticloadbalancing.amazonaws.com",
+                        "autoscaling.amazonaws.com"
+                    ],
+                    "iam:PassedToService": [
+                        "elasticloadbalancing.amazonaws.com",
+                        "autoscaling.amazonaws.com"
                     ]
                 }
             }
