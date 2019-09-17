@@ -61,6 +61,7 @@
             "Action": [
                 "iam:AttachRolePolicy",
                 "iam:CreateServiceLinkedRole",
+                "iam:CreateRole",
                 "iam:DetachRolePolicy",
                 "iam:PassRole"
             ],
