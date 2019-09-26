@@ -64,8 +64,9 @@
             "Effect": "Allow",
             "Action": [
                 "iam:AttachRolePolicy",
-                "iam:CreateServiceLinkedRole",
+                "iam:CreateInstanceProfile",
                 "iam:CreateRole",
+                "iam:CreateServiceLinkedRole",
                 "iam:DetachRolePolicy",
                 "iam:PassRole"
             ],

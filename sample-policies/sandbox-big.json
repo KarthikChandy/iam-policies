@@ -1,6 +1,9 @@
 ## START DELETE HERE
-# EC2 based permissions have been added.
-# Unfortunately at this stage, we cannot restrict LaunchTemplate actions based on instance type.
+# This policy is comprehensive and does not permit service:*
+# However this policy exceeds the 6,
+144 character limit https: //docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html#reference_iam-limits-entity-length
+# The workaround is to break this policy down into multiple policies and then attach them to the user.
+# We could make use CloudFormation to create the policies and then attach them to the user. If you want to attach it to an existing user, create a group attach the policies and then the user to the group.
 ## END DELETE HERE
 
 {
@@ -27,14 +30,39 @@
                 "autoscaling:SetInstanceHealth",
                 "autoscaling:SetDesiredCapacity",
                 "autoscaling:SetInstanceProtection",
+                "cloud9:CreateEnvironmentMembership",
+                "cloud9:Describe*",
+                "cloud9:Delete*",
+                "cloud9:ListEnvironments",
+                "cloud9:UpdateEnvironmentMembership",
                 "cloudformation:List*",
                 "cloudformation:Describe*",
                 "cloudformation:Detect*",
                 "cloudformation:EstimateTemplateCost",
                 "cloudformation:Get*",
+                "cloudtrail:GetTrailStatus",
+                "cloudtrail:DescribeTrails",
+                "cloudtrail:LookupEvents",
+                "cloudtrail:ListTags",
+                "cloudtrail:ListPublicKeys",
+                "cloudtrail:GetEventSelectors",
                 "cloudwatch:Describe*",
                 "cloudwatch:Get*",
                 "cloudwatch:List*",
+                "dynamodb:List*",
+                "dynamodb:Delete*",
+                "dynamodb:Restore*",
+                "dynamodb:Update*",
+                "dynamodb:Create*",
+                "dynamodb:DescribeR*",
+                "dynamodb:TagResource",
+                "dynamodb:Get*",
+                "dynamodb:Batch*",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:UntagResource",
+                "dynamodb:PutItem",
+                "dynamodb:Scan",
+                "dynamodb:Query",
                 "ec2:*Address*",
                 "ec2:Cancel*",
                 "ec2:Describe*",
@@ -92,12 +120,11 @@
                 "elasticloadbalancing:RegisterTargets",
                 "elasticloadbalancing:Set*",
                 "elasticloadbalancing:RemoveListenerCertificates",
-                "elasticloadbalancing:DeleteLoadBalancer",
+                "elasticloadbalancing:*LoadBalancer",
                 "elasticloadbalancing:Describe*",
                 "elasticloadbalancing:CreateListener",
                 "elasticloadbalancing:CreateRule",
                 "elasticloadbalancing:DeleteRule",
-                "elasticloadbalancing:CreateLoadBalancer",
                 "elasticloadbalancing:*TargetGroup",
                 "elasticloadbalancing:DeregisterTargets",
                 "elasticloadbalancing:*Tags",
@@ -105,8 +132,32 @@
                 "events:Describe*",
                 "events:List*",
                 "events:TestEventPattern",
+                "glacier:Get*",
+                "glacier:Describe*",
+                "glacier:List*",
                 "iam:List*",
                 "iam:Get*",
+                "iam:Tag*",
+                "iam:Untag*",
+                "iam:ChangePasword",
+                "iam:CreateAccessKey",
+                "iam:CreateLoginProfile",
+                "iam:DeleteAccessKey",
+                "iam:DeleteLoginProfile",
+                "iam:UpdateAccessKey",
+                "kms:List*",
+                "kms:Describe*",
+                "lambda:Create*",
+                "lambda:*Tag*",
+                "lambda:List*",
+                "lambda:Get*",
+                "lambda:*Version*",
+                "lambda:Invoke*",
+                "lambda:*Function*",
+                "lambda:EnableReplication",
+                "lambda:*EventSourceMapping",
+                "lambda:*Alias",
+                "lambda:*Permission",
                 "logs:List*",
                 "logs:Describe*",
                 "logs:Get*",
@@ -114,9 +165,70 @@
                 "logs:StopQuery",
                 "logs:TestMetricFilter",
                 "logs:FilterLogEvents",
+                "rds:Delete*",
+                "rds:*ParameterGroup",
+                "rds:Describe*",
+                "rds:PurchaseReservedDBInstancesOffering",
+                "rds:*DBSubnetGroup",
+                "rds:DownloadDBLogFilePortion",
+                "rds:AddRoleToDBCluster",
+                "rds:*Snapshot",
+                "rds:*SecurityGroup*",
+                "rds:CreateEventSubscription",
+                "rds:FailoverDBCluster",
+                "rds:AddRoleToDBInstance",
+                "rds:*Tags*",
+                "rds:ModifyEventSubscription",
+                "rds:ApplyPendingMaintenanceAction",
+                "rds:BacktrackDBCluster",
+                "rds:Remove*",
+                "rds:*OptionGroup",
+                "rds:AddSourceIdentifierToSubscription",
+                "rds:CreateDBClusterEndpoint",
+                "rds:StopDBCluster",
+                "rds:PromoteReadReplica",
+                "rds:StopActivityStream",
+                "rds:StartActivityStream",
+                "rds:RestoreDBClusterToPointInTime",
+                "rds:StopDBInstance",
+                "rds:DownloadCompleteDBLogFile",
                 "resource-groups:Get*",
                 "resource-groups:List*",
                 "resource-groups:SearchResources",
+                "resource-groups:*tag",
+                "route53:List*",
+                "route53:TestDNSAnswer",
+                "route53:Get*",
+                "route53:Create*",
+                "route53:Update*",
+                "route53:Delete*",
+                "route53:DisassociateVPCFromHostedZone",
+                "route53:Change*",
+                "route53:AssociateVPCWithHostedZone",
+                "s3:Put*",
+                "s3:Get*",
+                "s3:Create*",
+                "s3:Replicate*",
+                "s3:Delete*",
+                "s3:*Bucket*",
+                "s3:List*",
+                "s3:*Job*",
+                "s3:ReplicateTags",
+                "s3:RestoreObject",
+                "s3:AbortMultipartUpload",
+                "sns:*Tag*",
+                "sns:*Topic*",
+                "sns:*subscribe",
+                "sns:Create*",
+                "sns:*PhoneNumber*",
+                "sns:List*",
+                "sns:Set*",
+                "sns:Publish",
+                "sns:*PlatformApplication*",
+                "sns:ConfirmSubscription",
+                "sns:*Permission",
+                "sns:Get*",
+                "sns:DeleteEndpoint",
                 "ssm:List*",
                 "ssm:Describe*",
                 "ssm:Get*",
@@ -134,22 +246,29 @@
                 "ssm:ResumeSession",
                 "ssm:DescribeSessions",
                 "ssm:GetConnectionStatus",
-                "sns:TagResource",
-                "sns:Delete*",
-                "sns:List*",
-                "sns:Unsubscribe",
-                "sns:Set*",
-                "sns:UntagResource",
-                "sns:OptInPhoneNumber",
-                "sns:CheckIfPhoneNumberIsOptedOut",
-                "sns:Publish",
-                "sns:Subscribe",
-                "sns:ConfirmSubscription",
-                "sns:RemovePermission",
-                "sns:Get*",
-                "sns:Create*",
-                "sns:AddPermission",
-                "tag:*"
+                "tag:Get*",
+                "tag:UntagResources",
+                "tag:TagResources"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "DenyAllActions",
+            "Effect": "Deny",
+            "Action": [
+                "dynamodb:*Reserved*",
+                "glacier:*VaultLock",
+                "redshift:AcceptReservedNodeExchange",
+                "redshift:PurchaseReservedNodeOffering",
+                "route53domains:RegisterDomain",
+                "s3:*ObjectLegalHold",
+                "s3:*ObjectRetention",
+                "s3:*BucketObjectLock*",
+                "ec2:*Spot*",
+                "ec2:*ReservedInstances*",
+                "ec2:*Scheduled*",
+                "ec2:*Purchase*",
+                "rds:PurchaseReservedDBInstancesOffering"
             ],
             "Resource": "*"
         },
@@ -204,17 +323,6 @@
             }
         },
         {
-            "Sid": "RestrictSpotandRI",
-            "Effect": "Deny",
-            "Action": [
-                "ec2:*Spot*",
-                "ec2:*ReservedInstances*",
-                "ec2:*Scheduled*",
-                "ec2:*Purchase*"
-            ],
-            "Resource": "*"
-        },
-        {
             "Sid": "RestrictASLCInstanceType",
             "Effect": "Allow",
             "Action": "autoscaling:CreateLaunchConfiguration",
@@ -251,6 +359,77 @@
             }
         },
         {
+            "Sid": "RestrictRDSActivity",
+            "Effect": "Allow",
+            "Action": [
+                "rds:CreateDBInstance",
+                "rds:CreateDBInstanceReadReplica",
+                "rds:StartDBInstance",
+                "rds:ModifyDBInstance",
+                "rds:RebootDBInstance",
+                "rds:RestoreDBInstanceFromDBSnapshot",
+                "rds:RestoreDBInstanceFromS3",
+                "rds:RestoreDBInstanceToPointInTime",
+                "rds:CreateDBCluster",
+                "rds:StartDBCluster",
+                "rds:ModifyDBCluster",
+                "rds:CreateGlobalCluster",
+                "rds:ModifyDBClusterEndpoint",
+                "rds:ModifyGlobalCluster",
+                "rds:RestoreDBClusterFromS3",
+                "rds:RestoreDBClusterFromSnapshot",
+                "rds:ModifyCurrentDBClusterCapacity",
+                "rds:PromoteReadReplicaDBCluster"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "ForAnyValue:StringLikeIfExists": {
+                    "rds:DatabaseEngine": [
+                        "aurora-mysql",
+                        "aurora-postgresql",
+                        "mysql",
+                        "postgres",
+                        "mariadb"
+                    ],
+                    "rds:DatabaseClass": [
+                        "*.nano",
+                        "*.micro",
+                        "*.small",
+                        "*.medium"
+                    ]
+                },
+                "NumericLessThanIfExists": {
+                    "rds:StorageSize": "101"
+                },
+                "NumericEqualsIfExists": {
+                    "rds:Piops": "0"
+                },
+                "BoolIfExists": {
+                    "rds:MultiAz": [
+                        false
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "RestrictCloud9",
+            "Effect": "Deny",
+            "Action": [
+                "cloud9:CreateEnvironmentEC2",
+                "cloud9:UpdateEnvironment"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "ForAnyValue:StringNotLikeIfExists": {
+                    "cloud9:InstanceType": [
+                        "*.nano",
+                        "*.micro",
+                        "*.small"
+                    ]
+                }
+            }
+        },
+        {
             "Sid": "ServiceLinkedRoleAndPolicies",
             "Effect": "Allow",
             "Action": [
@@ -266,11 +445,15 @@
                 "StringLikeIfExists": {
                     "iam:AWSServiceName": [
                         "elasticloadbalancing.amazonaws.com",
-                        "autoscaling.amazonaws.com"
+                        "autoscaling.amazonaws.com",
+                        "rds.amazonaws.com",
+                        "lambda.amazonaws.com"
                     ],
                     "iam:PassedToService": [
                         "elasticloadbalancing.amazonaws.com",
-                        "autoscaling.amazonaws.com"
+                        "autoscaling.amazonaws.com",
+                        "rds.amazonaws.com",
+                        "lambda.amazonaws.com"
                     ]
                 }
             }
