@@ -161,7 +161,7 @@
                     ]
                 },
                 "NumericLessThanEqualsIfExists": {
-                    "ec2:VolumeSize": "35"
+                    "ec2:VolumeSize": "51"
                 }
             }
         },
