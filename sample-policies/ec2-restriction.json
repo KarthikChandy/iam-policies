@@ -8,7 +8,7 @@
 # ResourceGroups - Read-only access
 # Windows instances need 35 GB volumes.
 # SNS read access.
-# FYI - Nested conditions are evaluated as an AND condition. Therefore, statements that have multiple conditions that have to be evaluated on an OR basis, should be separated into multiple statements. 
+# FYI - Nested conditions are evaluated as an AND condition. Therefore, statements that have multiple conditions that have to be evaluated on an OR basis, should be separated into multiple statements.
 ## END DELETE HERE
 
 {
@@ -166,13 +166,14 @@
             }
         },
         {
-            "Sid": "RestrictSpotandRI",
+            "Sid": "RestrictActions",
             "Effect": "Deny",
             "Action": [
                 "ec2:*Spot*",
                 "ec2:*ReservedInstances*",
                 "ec2:*Scheduled*",
-                "ec2:*Purchase*"
+                "ec2:*Purchase*",
+                "ec2:EnableFastSnapshotRestores"
             ],
             "Resource": "*"
         }

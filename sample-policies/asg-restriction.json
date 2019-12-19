@@ -204,13 +204,14 @@
             }
         },
         {
-            "Sid": "RestrictSpotandRI",
+            "Sid": "RestrictActions",
             "Effect": "Deny",
             "Action": [
                 "ec2:*Spot*",
                 "ec2:*ReservedInstances*",
                 "ec2:*Scheduled*",
-                "ec2:*Purchase*"
+                "ec2:*Purchase*",
+                "ec2:EnableFastSnapshotRestores"
             ],
             "Resource": "*"
         },

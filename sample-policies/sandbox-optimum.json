@@ -100,6 +100,11 @@
             "Sid": "DenyAllActions",
             "Action": [
                 "dynamodb:*Reserved*",
+                "ec2:*Spot*",
+                "ec2:*ReservedInstances*",
+                "ec2:*Scheduled*",
+                "ec2:*Purchase*",
+                "ec2:EnableFastSnapshotRestores",
                 "glacier:*VaultLock",
                 "rds:PurchaseReservedDBInstancesOffering",
                 "redshift:AcceptReservedNodeExchange",
