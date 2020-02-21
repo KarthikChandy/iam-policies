@@ -1,7 +1,7 @@
-## START DELETE HERE
+########### START DELETE HERE ###########
 # EC2 based permissions have been added.
 # Unfortunately at this stage, we cannot restrict LaunchTemplate actions based on instance type.
-## END DELETE HERE
+########### END DELETE HERE   ###########
 
 {
     "Version": "2012-10-17",

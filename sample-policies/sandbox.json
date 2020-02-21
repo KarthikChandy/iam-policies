@@ -1,9 +1,11 @@
-## START DELETE HERE
+########### START DELETE HERE ###########
+## Old sandbox policy method
 # Sample AWS IAM policy providing a sandbox environment.
 # Make sure to delete unwanted areas.
 # NAT Instances - Creation will fail if the "RestrictPIOPSVolumes" statement below is used. Make sure to remove the statement if NAT instances are needed.
 # It is recommended to use this policy along with the managed "ReadOnlyAccess" policy
-## END DELETE HERE
+########### END DELETE HERE   ###########
+
 {
     "Version": "2012-10-17",
     "Statement": [

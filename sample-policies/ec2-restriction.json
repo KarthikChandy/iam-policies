@@ -1,4 +1,4 @@
-## START DELETE HERE
+########### START DELETE HERE ###########
 # Sample AWS IAM policy showing how to restrict EC2 instance creation and start operation based on certain conditions.
 # Make sure to delete unwanted areas.
 # IAM - Read-nly permissions are provided. For instance profile and other write based actions, refer to the IAM permission file.
@@ -9,7 +9,7 @@
 # Windows instances need 35 GB volumes.
 # SNS read access.
 # FYI - Nested conditions are evaluated as an AND condition. Therefore, statements that have multiple conditions that have to be evaluated on an OR basis, should be separated into multiple statements.
-## END DELETE HERE
+########### END DELETE HERE   ###########
 
 {
     "Version": "2012-10-17",

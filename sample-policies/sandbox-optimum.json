@@ -1,9 +1,10 @@
-## START DELETE HERE
+########### START DELETE HERE ###########
 # Sample AWS IAM policy providing a sandbox environment.
 # Make sure to delete unwanted areas.
 # NAT Instances - Creation will fail if the "RestrictPIOPSVolumes" statement below is used. Make sure to remove the statement if NAT instances are needed.
 # It is recommended to use this policy along with the managed "ReadOnlyAccess" policy
-## END DELETE HERE
+########### END DELETE HERE   ###########
+
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -12,17 +13,19 @@
             "Action": [
                 "autoscaling:*",
                 "cloud9:*",
-                "cloudformation:Describe*",
-                "cloudformation:Detect*",
-                "cloudformation:Get*",
-                "cloudformation:List*",
+                "cloudformation:*",
                 "cloudfront:*",
-                "cloudtrail:GetTrailStatus",
-                "cloudtrail:DescribeTrails",
                 "cloudtrail:LookupEvents",
-                "cloudtrail:ListTags",
-                "cloudtrail:ListPublicKeys",
-                "cloudtrail:GetEventSelectors",
+                "cloudtrail:Get*",
+                "cloudtrail:List*",
+                "cloudtrail:StartLogging",
+                "cloudtrail:UpdateTrail",
+                "cloudtrail:DescribeTrails",
+                "cloudtrail:AddTags",
+                "cloudtrail:List*",
+                "cloudtrail:CreateTrail",
+                "cloudtrail:List*",
+                "cloudtrail:RemoveTags",
                 "cloudwatch:*",
                 "dynamodb:*",
                 "ec2:*",
@@ -33,7 +36,7 @@
                 "iam:Get*",
                 "iam:Tag*",
                 "iam:Untag*",
-                "iam:ChangePasword",
+                "iam:ChangePassword",
                 "iam:CreateAccessKey",
                 "iam:CreateLoginProfile",
                 "iam:DeleteAccessKey",
@@ -91,6 +94,7 @@
                 "s3:*",
                 "sns:*",
                 "ssm:*",
+                "sqs:*",
                 "tag:*"
             ],
             "Effect": "Allow",
@@ -113,17 +117,6 @@
                 "s3:*ObjectLegalHold",
                 "s3:*ObjectRetention",
                 "s3:*BucketObjectLock*"
-            ],
-            "Effect": "Deny",
-            "Resource": "*"
-        },
-        {
-            "Sid": "RestrictEC2SpotandRI",
-            "Action": [
-                "ec2:*Spot*",
-                "ec2:*ReservedInstances*",
-                "ec2:*Scheduled*",
-                "ec2:*Purchase*"
             ],
             "Effect": "Deny",
             "Resource": "*"
@@ -296,8 +289,32 @@
                     "cloud9:InstanceType": [
                         "*.nano",
                         "*.micro",
-                        "*.small",
-                        "*.medium"
+                        "*.small"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "IAMRoleActions",
+            "Effect": "Allow",
+            "Action": [
+                "iam:AddRoleToInstanceProfile",
+                "iam:PutRolePolicy",
+                "iam:RemoveRoleFromInstanceProfile",
+                "iam:UpdateRoleDescription",
+                "iam:AttachRolePolicy",
+                "iam:CreateInstanceProfile",
+                "iam:CreateRole",
+                "iam:CreatePolicy",
+                "iam:CreateServiceLinkedRole",
+                "iam:PassRole"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringLikeIfExists": {
+                    "iam:AWSServiceName": [
+                        "ec2.amazonaws.com",
+                        "lambda.amazonaws.com"
                     ]
                 }
             }

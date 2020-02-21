@@ -1,10 +1,10 @@
-## START DELETE HERE
+########### START DELETE HERE ###########
 # This policy is comprehensive and does not permit service:*
 # However this policy exceeds the 6,
 144 character limit https: //docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html#reference_iam-limits-entity-length
 # The workaround is to break this policy down into multiple policies and then attach them to the user.
 # We could make use CloudFormation to create the policies and then attach them to the user. If you want to attach it to an existing user, create a group attach the policies and then the user to the group.
-## END DELETE HERE
+########### END DELETE HERE   ###########
 
 {
     "Version": "2012-10-17",
@@ -35,6 +35,7 @@
                 "cloud9:Delete*",
                 "cloud9:ListEnvironments",
                 "cloud9:UpdateEnvironmentMembership",
+                "cloud9:Validate*",
                 "cloudformation:List*",
                 "cloudformation:Describe*",
                 "cloudformation:Detect*",
@@ -46,6 +47,10 @@
                 "cloudtrail:ListTags",
                 "cloudtrail:ListPublicKeys",
                 "cloudtrail:GetEventSelectors",
+                "cloudtrail:Put*",
+                "cloudtrail:StartLogging",
+                "cloudtrail:UpdateTrail",
+                "cloudtrail:CreateTrail",
                 "cloudwatch:Describe*",
                 "cloudwatch:Get*",
                 "cloudwatch:List*",
@@ -115,6 +120,35 @@
                 "ec2:TerminateInstances",
                 "ec2:DisableEbsEncryptionByDefault",
                 "ec2:ModifyEbsDefaultKmsKeyId",
+                "ecr:Put*",
+                "ecr:Start*",
+                "ecr:List*",
+                "ecr:*Upload*",
+                "ecr:Batch*",
+                "ecr:Delete*",
+                "ecr:*Tag*",
+                "ecr:Describe*",
+                "ecr:Get*",
+                "ecr:CreateRepository",
+                "ecr:SetRepositoryPolicy",
+                "ecs:List*",
+                "ecs:Describe*",
+                "ecs:*Tag*",
+                "ecs:Put*",
+                "ecs:Update*",
+                "ecs:Start*",
+                "ecs:*Register*",
+                "ecs:Delete*",
+                "ecs:Submit*",
+                "ecs:*Poll*",
+                "ecs:Create*",
+                "ecs:*Task",
+                "eks:Delete*",
+                "eks:*Update*",
+                "eks:List*",
+                "eks:Describe*",
+                "eks:*tag*",
+                "eks:Create*",
                 "elasticloadbalancing:AddListenerCertificates",
                 "elasticloadbalancing:Modify*",
                 "elasticloadbalancing:RegisterTargets",
@@ -139,7 +173,7 @@
                 "iam:Get*",
                 "iam:Tag*",
                 "iam:Untag*",
-                "iam:ChangePasword",
+                "iam:ChangePassword",
                 "iam:CreateAccessKey",
                 "iam:CreateLoginProfile",
                 "iam:DeleteAccessKey",
@@ -448,13 +482,17 @@
                         "elasticloadbalancing.amazonaws.com",
                         "autoscaling.amazonaws.com",
                         "rds.amazonaws.com",
-                        "lambda.amazonaws.com"
+                        "lambda.amazonaws.com",
+                        "ecs.amazonaws.com",
+                        "ecr.amazonaws.com"
                     ],
                     "iam:PassedToService": [
                         "elasticloadbalancing.amazonaws.com",
                         "autoscaling.amazonaws.com",
                         "rds.amazonaws.com",
-                        "lambda.amazonaws.com"
+                        "lambda.amazonaws.com",
+                        "ecs.amazonaws.com",
+                        "ecr.amazonaws.com"
                     ]
                 }
             }

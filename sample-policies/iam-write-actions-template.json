@@ -1,4 +1,4 @@
-## START DELETE HERE
+########### START DELETE HERE ###########
 # Replace "RoleYouWantToGiveAccessTo" with the name of the role you want to give access to.
 # Replace "ServiceRoleYouWantToGiveAccessTo" with the name of the service role you want to give access to.
 # Replace "ServiceName" with the name of the service you want to use. Use lowercase.
@@ -7,7 +7,7 @@
 # IMPORTANT: Notice that the "Resource" could use a standard Role. But in the "Condition" we use a Service Role.
 # IAM Role Conditions use AND for multiple conditions.
 # This policy is not applicable for federation.
-## END DELETE HERE
+########### START DELETE HERE ###########
 
 {
     "Version": "2012-10-17",
@@ -19,7 +19,7 @@
                 "iam:Get*",
                 "iam:Tag*",
                 "iam:Untag*",
-                "iam:ChangePasword",
+                "iam:ChangePassword",
                 "iam:CreateAccessKey",
                 "iam:CreateLoginProfile",
                 "iam:DeleteAccessKey",

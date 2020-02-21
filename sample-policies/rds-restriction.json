@@ -1,4 +1,4 @@
-## START DELETE HERE
+########### START DELETE HERE ###########
 # Sample showing how to restrict RDS instance creation based on certain conditions.
 # Make sure to delete unwanted areas.
 # CloudFormation - read-only
@@ -6,7 +6,7 @@
 # ResourceGroups - Read-only
 # RDS actions restricted to db instance type, engine, billing, multi-zone requirements, volume size and type, 
 # Certain RDS activities such as subnet group and security groups access/creation would require EC2 access as well. In this example, EC2 read access and some basic ec2 actions are provided. 
-## END DELETE HERE
+########### START DELETE HERE ###########
 
 {
     "Version": "2012-10-17",

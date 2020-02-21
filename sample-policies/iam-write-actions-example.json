@@ -1,9 +1,9 @@
-## START DELETE HERE
+########### START DELETE HERE ###########
 # In this example the AWS DataPipeline service is used.
 # IMPORTANT: Notice that the "Resource" could use a standard Role. But in the "Condition" we use a Service Role.
 # IAM Role Conditions use AND for multiple conditions.
 # This policy is not applicable for federation.
-## END DELETE HERE
+########### END DELETE HERE   ###########
 
 {
     "Version": "2012-10-17",
@@ -15,7 +15,7 @@
                 "iam:Get*",
                 "iam:Tag*",
                 "iam:Untag*",
-                "iam:ChangePasword",
+                "iam:ChangePassword",
                 "iam:CreateAccessKey",
                 "iam:CreateLoginProfile",
                 "iam:DeleteAccessKey",
