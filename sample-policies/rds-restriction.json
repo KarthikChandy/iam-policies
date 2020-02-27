@@ -42,7 +42,6 @@
                 "rds:Delete*",
                 "rds:*ParameterGroup",
                 "rds:Describe*",
-                "rds:PurchaseReservedDBInstancesOffering",
                 "rds:*DBSubnetGroup",
                 "rds:DownloadDBLogFilePortion",
                 "rds:AddRoleToDBCluster",
