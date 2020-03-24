@@ -1,0 +1,59 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowAllActions",
+            "Effect": "Allow",
+            "Action": [
+                "cloud9:Describe*",
+                "cloud9:Delete*",
+                "cloud9:ListEnvironments",
+                "cloud9:Validate*",
+                "cloud9:*tag*",
+                "cloud9:GetUserSettings",
+                "ec2:DescribeVpcs",
+                "ec2:DescribeSubnets ",
+                "ec2:*Subnet*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "RestrictCloud9",
+            "Effect": "Allow",
+            "Action": [
+                "cloud9:UpdateEnvironment*",
+                "cloud9:CreateEnvironment*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "ForAnyValue:StringLikeIfExists": {
+                    "cloud9:InstanceType": [
+                        "*.nano",
+                        "*.micro",
+                        "*.small"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "ServiceLinkedRoleAndPolicies",
+            "Effect": "Allow",
+            "Action": [
+                "iam:AttachRolePolicy",
+                "iam:CreateInstanceProfile",
+                "iam:CreateRole",
+                "iam:CreateServiceLinkedRole",
+                "iam:DetachRolePolicy",
+                "iam:PassRole"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringLikeIfExists": {
+                    "iam:AWSServiceName": [
+                        "cloud9.amazonaws.com"
+                    ]
+                }
+            }
+        }
+    ]
+}
