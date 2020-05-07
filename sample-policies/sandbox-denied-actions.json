@@ -1,0 +1,357 @@
+########### START DELETE HERE ###########
+# Sample AWS IAM policy providing a sandbox environment. Unwanted actions are denied.
+# Make sure to delete unwanted areas.
+# NOTE: when multiple conditions are used in a policy, all of them are evaluated based on AND rather than OR.
+# It is ideally advisable to only permit specific permissions that are needed. However, as a single policy can only currently support 6144 characters, the approach followed in this file is to allow all actions and then deny specific actions.
+# RDS service permissions are written slightly differently because of the way multiple conditions are evaluated.
+# It is recommended to use this policy along with the managed "ReadOnlyAccess" policy
+########### END DELETE HERE   ###########
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowAllActions",
+            "Effect": "Allow",
+            "Action": [
+                "autoscaling:*",
+                "cloud9:*",
+                "cloudformation:*",
+                "cloudtrail:*",
+                "cloudwatch:*",
+                "dynamodb:*",
+                "ec2:*",
+                "ecr:*",
+                "ecs:*",
+                "eks:*",
+                "elasticloadbalancing:*",
+                "events:*",
+                "glacier:*",
+                "iam:List*",
+                "iam:Get*",
+                "iam:Tag*",
+                "iam:Untag*",
+                "iam:ChangePassword",
+                "iam:CreateAccessKey",
+                "iam:CreateLoginProfile",
+                "iam:DeleteAccessKey",
+                "iam:DeleteLoginProfile",
+                "iam:UpdateAccessKey",
+                "iot:*",
+                "iotanalytics:*",
+                "kinesis:*",
+                "kinesisanalytics:*",
+                "kinesisvideo:*",
+                "kms:List*",
+                "kms:Describe*",
+                "lambda:*",
+                "logs:*",
+                "rds:Add*",
+                "rds:*SecurityGroup*",
+                "rds:ApplyPendingMaintenanceAction",
+                "rds:BacktrackDBCluster",
+                "rds:*Parameter*",
+                "rds:CreateDBClusterEndpoint",
+                "rds:*SubnetGroup*",
+                "rds:*OptionGroup*",
+                "rds:CreateDBClusterSnapshot",
+                "rds:CreateDBSnapshot",
+                "rds:CreateEventSubscription",
+                "rds:Copy*",
+                "rds:Describe*",
+                "rds:Download*",
+                "rds:Delete*",
+                "rds:FailoverDBCluster",
+                "rds:List*",
+                "rds:ModifyDBSnapshot*",
+                "rds:ModifyDBClusterSnapshotAttribute",
+                "rds:ModifyEventSubscription",
+                "rds:PromoteReadReplica",
+                "rds:*Tag*",
+                "rds:Remove*",
+                "rds:ResetDB*",
+                "rds:StopDBCluster",
+                "rds:StopDBInstance",
+                "resource-groups:*",
+                "route53:*",
+                "s3:*",
+                "sagemaker:*",
+                "sns:*",
+                "ssm:*",
+                "tag:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "DenyAllActions",
+            "Effect": "Deny",
+            "Action": [
+                "dynamodb:*Reserved*",
+                "ec2:*Spot*",
+                "ec2:*ReservedInstances*",
+                "ec2:*Scheduled*",
+                "ec2:*Purchase*",
+                "ec2:EnableFastSnapshotRestores",
+                "glacier:*VaultLock",
+                "rds:PurchaseReservedDBInstancesOffering",
+                "redshift:AcceptReservedNodeExchange",
+                "redshift:PurchaseReservedNodeOffering",
+                "route53domains:RegisterDomain",
+                "s3:*ObjectLegalHold",
+                "s3:*ObjectRetention",
+                "s3:*BucketObjectLock*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "RestrictEC2PlacementGroup",
+            "Action": "ec2:*Instance*",
+            "Effect": "Deny",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "ec2:PlacementGroupStrategy": "cluster"
+                }
+            }
+        },
+        {
+            "Sid": "DenyEC2Tenancy",
+            "Action": "ec2:*Instance*",
+            "Effect": "Deny",
+            "Resource": "arn:aws:ec2:*:*:instance/*",
+            "Condition": {
+                "StringNotLike": {
+                    "ec2:Tenancy": "default"
+                }
+            }
+        },
+        {
+            "Sid": "RestrictEC2InstanceTypes",
+            "Action": [
+                "ec2:RunInstances",
+                "ec2:StartInstances"
+            ],
+            "Effect": "Deny",
+            "Resource": "arn:aws:ec2:*:*:instance/*",
+            "Condition": {
+                "ForAnyValue:StringNotLike": {
+                    "ec2:InstanceType": [
+                        "*.nano",
+                        "*.micro",
+                        "*.small"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "RestrictNonAWSAMIs",
+            "Action": "ec2:RunInstances",
+            "Effect": "Deny",
+            "Resource": [
+                "arn:aws:ec2:*:*:image/*"
+            ],
+            "Condition": {
+                "StringNotEqualsIgnoreCaseIfExists": {
+                    "ec2:Owner": "amazon"
+                }
+            }
+        },
+        {
+            "Sid": "RestrictLargeVolumes",
+            "Action": [
+                "ec2:CreateVolume",
+                "ec2:RunInstances"
+            ],
+            "Effect": "Deny",
+            "Resource": "arn:aws:ec2:*:*:volume/*",
+            "Condition": {
+                "NumericGreaterThanIfExists": {
+                    "ec2:VolumeSize": "51"
+                }
+            }
+        },
+        {
+            "Sid": "RestrictPIOPSVolumes",
+            "Action": [
+                "ec2:CreateVolume",
+                "ec2:RunInstances"
+            ],
+            "Effect": "Deny",
+            "Resource": "arn:aws:ec2:*:*:volume/*",
+            "Condition": {
+                "StringNotLikeIfExists": {
+                    "ec2:VolumeType": [
+                        "gp2"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "RestrictASGCInstanceType",
+            "Effect": "Deny",
+            "Action": [
+                "autoscaling:CreateLaunchConfiguration",
+                "autoscaling:UpdateAutoScalingGroup",
+                "autoscaling:CreateAutoScalingGroup"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "ForAnyValue:StringNotLikeIfExists": {
+                    "autoscaling:InstanceType": [
+                        "*.nano",
+                        "*.micro",
+                        "*.small"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "RestrictASGNo",
+            "Effect": "Deny",
+            "Action": [
+                "autoscaling:UpdateAutoScalingGroup",
+                "autoscaling:CreateAutoScalingGroup"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "NumericGreaterThanIfExists": {
+                    "autoscaling:MaxSize": "4"
+                }
+            }
+        },
+        {
+            "Sid": "RestrictRDSActivity",
+            "Effect": "Allow",
+            "Action": [
+                "rds:CreateDBInstance",
+                "rds:CreateDBInstanceReadReplica",
+                "rds:StartDBInstance",
+                "rds:ModifyDBInstance",
+                "rds:RebootDBInstance",
+                "rds:RestoreDBInstanceFromDBSnapshot",
+                "rds:RestoreDBInstanceFromS3",
+                "rds:RestoreDBInstanceToPointInTime",
+                "rds:CreateDBCluster",
+                "rds:StartDBCluster",
+                "rds:ModifyDBCluster",
+                "rds:CreateGlobalCluster",
+                "rds:ModifyDBClusterEndpoint",
+                "rds:ModifyGlobalCluster",
+                "rds:RestoreDBClusterFromS3",
+                "rds:RestoreDBClusterFromSnapshot",
+                "rds:ModifyCurrentDBClusterCapacity",
+                "rds:PromoteReadReplicaDBCluster"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "ForAnyValue:StringLikeIfExists": {
+                    "rds:DatabaseEngine": [
+                        "aurora-mysql",
+                        "aurora-postgresql",
+                        "mysql",
+                        "postgres",
+                        "mariadb"
+                    ],
+                    "rds:DatabaseClass": [
+                        "*.nano",
+                        "*.micro",
+                        "*.small",
+                        "*.medium"
+                    ]
+                },
+                "NumericLessThanIfExists": {
+                    "rds:StorageSize": "101"
+                },
+                "NumericEqualsIfExists": {
+                    "rds:Piops": "0"
+                },
+                "BoolIfExists": {
+                    "rds:MultiAz": [
+                        false
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "RestrictCloud9",
+            "Effect": "Deny",
+            "Action": [
+                "cloud9:UpdateEnvironment*",
+                "cloud9:CreateEnvironment*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "ForAnyValue:StringNotLikeIfExists": {
+                    "cloud9:InstanceType": [
+                        "*.nano",
+                        "*.micro",
+                        "*.small"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "RestrictSageMaker",
+            "Effect": "Deny",
+            "Action": [
+                "sagemaker:CreateEndpoint",
+                "sagemaker:StartMonitoringSchedule",
+                "sagemaker:StartNotebookInstance",
+                "sagemaker:CreateAutoMLJob",
+                "sagemaker:CreateEndpointConfig",
+                "sagemaker:CreateMonitoringSchedule",
+                "sagemaker:UpdateMonitoringSchedule",
+                "sagemaker:CreateDomain",
+                "sagemaker:UpdateDomain",
+                "sagemaker:CreateTrainingJob",
+                "sagemaker:CreateProcessingJob",
+                "sagemaker:CreateTransformJob",
+                "sagemaker:CreateNotebookInstance",
+                "sagemaker:UpdateNotebookInstance",
+                "sagemaker:CreateApp"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "ForAnyValue:StringNotLikeIfExists": {
+                    "sagemaker:InstanceTypes": [
+                        "*.medium",
+                        "*.large",
+                        "*.xlarge"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "ServiceLinkedRoleAndPolicies",
+            "Effect": "Allow",
+            "Action": [
+                "iam:AttachRolePolicy",
+                "iam:CreateInstanceProfile",
+                "iam:CreateRole",
+                "iam:CreateServiceLinkedRole",
+                "iam:DetachRolePolicy",
+                "iam:PassRole"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringLikeIfExists": {
+                    "iam:AWSServiceName": [
+                        "autoscaling.amazonaws.com",
+                        "cloud9.amazonaws.com",
+                        "elasticloadbalancing.amazonaws.com",
+                        "ecs.amazonaws.com",
+                        "ecr.amazonaws.com",
+                        "kinesis.amazonaws.com",
+                        "kinesisanalytics.amazonaws.com",
+                        "kinesisvideo.amazonaws.com",
+                        "iot.amazonaws.com",
+                        "iotanalytics.amazonaws.com",
+                        "lambda.amazonaws.com",
+                        "rds.amazonaws.com",
+                        "sagemaker.amazonaws.com"
+                    ]
+                }
+            }
+        }
+    ]
+}

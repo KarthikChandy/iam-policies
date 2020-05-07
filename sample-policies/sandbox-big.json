@@ -179,6 +179,11 @@
                 "iam:DeleteAccessKey",
                 "iam:DeleteLoginProfile",
                 "iam:UpdateAccessKey",
+                "iot:*",
+                "iotanalytics:*",
+                "kinesis:*",
+                "kinesisanalytics:*",
+                "kinesisvideo:*",
                 "kms:List*",
                 "kms:Describe*",
                 "lambda:Create*",
@@ -249,6 +254,7 @@
                 "s3:ReplicateTags",
                 "s3:RestoreObject",
                 "s3:AbortMultipartUpload",
+                "sagemaker:*",
                 "sns:*Tag*",
                 "sns:*Topic*",
                 "sns:*subscribe",
@@ -459,6 +465,37 @@
                         "*.nano",
                         "*.micro",
                         "*.small"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "RestrictSageMaker",
+            "Effect": "Deny",
+            "Action": [
+                "sagemaker:CreateEndpoint",
+                "sagemaker:StartMonitoringSchedule",
+                "sagemaker:StartNotebookInstance",
+                "sagemaker:CreateAutoMLJob",
+                "sagemaker:CreateEndpointConfig",
+                "sagemaker:CreateMonitoringSchedule",
+                "sagemaker:UpdateMonitoringSchedule",
+                "sagemaker:CreateDomain",
+                "sagemaker:UpdateDomain",
+                "sagemaker:CreateTrainingJob",
+                "sagemaker:CreateProcessingJob",
+                "sagemaker:CreateTransformJob",
+                "sagemaker:CreateNotebookInstance",
+                "sagemaker:UpdateNotebookInstance",
+                "sagemaker:CreateApp"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "ForAnyValue:StringNotLikeIfExists": {
+                    "sagemaker:InstanceTypes": [
+                        "*.medium",
+                        "*.large",
+                        "*.xlarge"
                     ]
                 }
             }
