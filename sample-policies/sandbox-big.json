@@ -519,6 +519,7 @@
                         "autoscaling.amazonaws.com",
                         "rds.amazonaws.com",
                         "lambda.amazonaws.com",
+                        "ec2.amazonaws.com",
                         "ecs.amazonaws.com",
                         "ecr.amazonaws.com",
                         "cloud9.amazonaws.com"

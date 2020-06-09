@@ -339,6 +339,7 @@
                         "autoscaling.amazonaws.com",
                         "cloud9.amazonaws.com",
                         "elasticloadbalancing.amazonaws.com",
+                        "ec2.amazonaws.com",
                         "ecs.amazonaws.com",
                         "ecr.amazonaws.com",
                         "kinesis.amazonaws.com",
