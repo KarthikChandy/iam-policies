@@ -1,7 +1,7 @@
 ########### START DELETE HERE ###########
 # Sample AWS IAM policy showing how to restrict EC2 instance creation and start operation based on certain conditions.
-# Make sure to delete unwanted areas.
-# IAM - Read-nly permissions are provided. For instance profile and other write based actions, refer to the IAM permission file.
+# Make sure to delete unwanted sections.
+# IAM - Read-only permissions are provided. For instance profile and other write based actions, refer to the IAM permission file.
 # SSM - Run Command, Sessions Manager, Automation and Read-only access is provided. This will help if environments have restricted SSH\RDP access.
 # CloudFormation - Read-only access
 # CloudWatch - Read-only access

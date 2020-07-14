@@ -149,6 +149,7 @@
                 "sns:Get*",
                 "sns:Create*",
                 "sns:AddPermission",
+                "sts:DecodeAuthorizationMessage",
                 "tag:*"
             ],
             "Resource": "*"
@@ -256,6 +257,7 @@
             "Effect": "Allow",
             "Action": [
                 "iam:AttachRolePolicy",
+                "iam:PutRolePolicy",
                 "iam:CreateInstanceProfile",
                 "iam:CreateRole",
                 "iam:CreateServiceLinkedRole",
@@ -266,10 +268,7 @@
             "Condition": {
                 "StringLikeIfExists": {
                     "iam:AWSServiceName": [
-                        "elasticloadbalancing.amazonaws.com",
-                        "autoscaling.amazonaws.com"
-                    ],
-                    "iam:PassedToService": [
+                        "ec2.amazonaws.com",
                         "elasticloadbalancing.amazonaws.com",
                         "autoscaling.amazonaws.com"
                     ]
