@@ -1,7 +1,6 @@
 ########### START DELETE HERE ###########
 # This policy is comprehensive and does not permit service:*
-# However this policy exceeds the 6,
-144 character limit https: //docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html#reference_iam-limits-entity-length
+# However this policy exceeds the 6144 character limit https: //docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html#reference_iam-limits-entity-length
 # The workaround is to break this policy down into multiple policies and then attach them to the user.
 # We could make use CloudFormation to create the policies and then attach them to the user. If you want to attach it to an existing user, create a group attach the policies and then the user to the group.
 ########### END DELETE HERE   ###########
@@ -171,7 +170,7 @@
                 "glacier:List*",
                 "iam:List*",
                 "iam:Get*",
-                "iam:Tag*",
+                "iam:*tag*",
                 "iam:Untag*",
                 "iam:ChangePassword",
                 "iam:CreateAccessKey",
@@ -504,12 +503,19 @@
             "Sid": "ServiceLinkedRoleAndPolicies",
             "Effect": "Allow",
             "Action": [
-                "iam:AttachRolePolicy",
-                "iam:CreateInstanceProfile",
-                "iam:CreateRole",
-                "iam:CreateServiceLinkedRole",
+                "iam:UpdateAssumeRolePolicy",
+                "iam:PassRole",
                 "iam:DetachRolePolicy",
-                "iam:PassRole"
+                "iam:CreateServiceLinkedRole",
+                "iam:DeleteRolePolicy",
+                "iam:UpdateRoleDescription",
+                "iam:CreateRole",
+                "iam:DeleteRole",
+                "iam:AttachRolePolicy",
+                "iam:DeleteServiceLinkedRole",
+                "iam:PutRolePolicy",
+                "iam:AddRoleToInstanceProfile",
+                "iam:CreateInstanceProfile"
             ],
             "Resource": "*",
             "Condition": {
