@@ -58,7 +58,7 @@
                 "dynamodb:Restore*",
                 "dynamodb:Update*",
                 "dynamodb:Create*",
-                "dynamodb:DescribeR*",
+                "dynamodb:Describe*",
                 "dynamodb:TagResource",
                 "dynamodb:Get*",
                 "dynamodb:Batch*",
