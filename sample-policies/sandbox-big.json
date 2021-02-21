@@ -50,6 +50,8 @@
                 "cloudwatch:Get*",
                 "cloudwatch:List*",
                 "cloudwatch:Put*",
+                "compute-optimizer:Get*",
+                "compute-optimizer:Describe*",
                 "dynamodb:List*",
                 "dynamodb:Delete*",
                 "dynamodb:Restore*",
