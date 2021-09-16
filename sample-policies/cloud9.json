@@ -5,14 +5,18 @@
             "Sid": "AllowAllActions",
             "Effect": "Allow",
             "Action": [
-                "cloud9:Describe*",
+                "cloud9:*Tag*",
+                "cloud9:*TemporaryCredentials*",
+                "cloud9:Activate*",
                 "cloud9:Delete*",
-                "cloud9:ListEnvironments",
+                "cloud9:Describe*",
+                "cloud9:Get*",
+                "cloud9:List*",
+                "cloud9:UpdateMembershipSettings",
+                "cloud9:UpdateSSHRemote",
+                "cloud9:UpdateUserSettings",
                 "cloud9:Validate*",
-                "cloud9:*tag*",
-                "cloud9:GetUserSettings",
-                "ec2:DescribeVpcs",
-                "ec2:DescribeSubnets ",
+                "ec2:Describe*",
                 "ec2:*Subnet*"
             ],
             "Resource": "*"
@@ -21,34 +25,43 @@
             "Sid": "RestrictCloud9",
             "Effect": "Allow",
             "Action": [
-                "cloud9:UpdateEnvironment*",
-                "cloud9:CreateEnvironment*"
+                "cloud9:CreateEnvironment*",
+                "cloud9:UpdateEnvironment*"
             ],
             "Resource": "*",
             "Condition": {
-                "ForAnyValue:StringLikeIfExists": {
+                "ForAnyValue:StringLike": {
                     "cloud9:InstanceType": [
-                        "*.nano",
-                        "*.micro",
-                        "*.small"
+                        "t*.nano",
+                        "t*.micro",
+                        "t*.small"
                     ]
                 }
             }
         },
         {
-            "Sid": "ServiceLinkedRoleAndPolicies",
+            "Sid": "AllowServiceLinkedRoleCreation",
             "Effect": "Allow",
-            "Action": [
-                "iam:AttachRolePolicy",
-                "iam:CreateInstanceProfile",
-                "iam:CreateRole",
-                "iam:CreateServiceLinkedRole",
-                "iam:DetachRolePolicy",
-                "iam:PassRole"
-            ],
+            "Action": "iam:CreateServiceLinkedRole",
+            "Resource": "arn:aws:iam::*:role/aws-service-role/*",
+            "Condition": {
+                "StringLikeIfExists": {
+                    "iam:AWSServiceName": [
+                        "cloud9.amazonaws.com"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "PassRoleAndPolicies",
+            "Effect": "Allow",
+            "Action": "iam:PassRole",
             "Resource": "*",
             "Condition": {
                 "StringLikeIfExists": {
+                    "iam:PassedToService": [
+                        "cloud9.amazonaws.com"
+                    ],
                     "iam:AWSServiceName": [
                         "cloud9.amazonaws.com"
                     ]

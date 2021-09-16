@@ -10,134 +10,145 @@
             "Sid": "AllowAllActions",
             "Effect": "Allow",
             "Action": [
-                "autoscaling:Batch*",
-                "autoscaling:Delete*",
-                "autoscaling:Describe*",
-                "autoscaling:*Instance*",
+                "autoscaling:*InstanceRefresh",
                 "autoscaling:*Lifecycle*",
                 "autoscaling:*LoadBalancer*",
                 "autoscaling:*Metrics*",
                 "autoscaling:*Policy",
-                "autoscaling:Put*",
                 "autoscaling:*Processes",
-                "autoscaling:SetDesiredCapacity",
                 "autoscaling:*Standby",
                 "autoscaling:*Tags*",
-                "cloudformation:List*",
+                "autoscaling:Attach*",
+                "autoscaling:Batch*",
+                "autoscaling:Delete*",
+                "autoscaling:Describe*",
+                "autoscaling:Detach*",
+                "autoscaling:Get*",
+                "autoscaling:Put*",
+                "autoscaling:Set*",
+                "autoscaling:Terminate*",
                 "cloudformation:Describe*",
                 "cloudformation:Detect*",
                 "cloudformation:EstimateTemplateCost",
                 "cloudformation:Get*",
+                "cloudformation:List*",
                 "cloudwatch:Describe*",
                 "cloudwatch:Get*",
                 "cloudwatch:List*",
                 "cloudwatch:Put*",
+                "ec2:*Acl*",
                 "ec2:*Address*",
-                "ec2:*associate*",
-                "ec2:AttachVolume",
-                "ec2:BundleInstance",
-                "ec2:Cancel*",
-                "ec2:*Capacity*",
-                "ec2:CreateInstanceExportTask",
-                "ec2:CreateFlowLogs",
-                "ec2:*Credit*",
-                "ec2:*Cidr",
-                "ec2:Delete*",
-                "ec2:Describe*",
-                "ec2:DetachVolume",
+                "ec2:*Bundle*",
+                "ec2:*Cidr*",
                 "ec2:*Dhcp*",
-                "ec2:*Ebs*",
+                "ec2:*Encryption*",
                 "ec2:*Event*",
-                "ec2:*Fleet*",
-                "ec2:*Format",
                 "ec2:*Gateway*",
-                "ec2:Get*",
-                "ec2:*InstanceAttribute",
-                "ec2:*InternetGateway",
+                "ec2:*IdFormat",
                 "ec2:*Image*",
                 "ec2:*KeyPair",
                 "ec2:*Kms*",
-                "ec2:*monitor*",
+                "ec2:*Log*",
+                "ec2:*Managed*",
                 "ec2:*Network*",
-                "ec2:*Options",
-                "ec2:*PrefixList*",
-                "ec2:ReportInstanceStatus",
-                "ec2:RebootInstances",
-                "ec2:ReplaceIamInstanceProfileAssociation",
                 "ec2:*Route*",
                 "ec2:*SecurityGroup*",
+                "ec2:*SnapshotAttribute",
+                "ec2:*Subnet*",
+                "ec2:*Tag*",
+                "ec2:*Task",
+                "ec2:*Traffic*",
+                "ec2:*Vpc*",
+                "ec2:*Vpn*",
+                "ec2:Accept*",
+                "ec2:AllocateHosts",
+                "ec2:Associate*",
+                "ec2:AttachVolume",
+                "ec2:Cancel*",
+                "ec2:Confirm*",
+                "ec2:CopySnapshot",
+                "ec2:CreateSnapshot*",
+                "ec2:Delete*",
+                "ec2:Describe*",
+                "ec2:DetachVolume",
+                "ec2:Disable*",
+                "ec2:Disassociate*",
+                "ec2:Export*",
+                "ec2:Get*",
+                "ec2:ModifyAvailabilityZoneGroup",
+                "ec2:ModifyInstanceMetadataOptions",
+                "ec2:MonitorInstances",
+                "ec2:ReleaseHosts",
+                "ec2:ReplaceIamInstanceProfileAssociation",
+                "ec2:ReportInstanceStatus",
                 "ec2:Search*",
                 "ec2:SendDiagnosticInterrupt",
                 "ec2:StopInstances",
-                "ec2:*Snapshot*",
-                "ec2:*Subnet*",
-                "ec2:*Tag*",
                 "ec2:TerminateInstances",
-                "ec2:*Traffic*",
-                "ec2:*Vpn*",
-                "ec2:*Vpc*",
+                "ec2:UnmonitorInstances",
+                "elasticloadbalancing:*Tags",
+                "elasticloadbalancing:*TargetGroup",
                 "elasticloadbalancing:AddListenerCertificates",
+                "elasticloadbalancing:CreateListener",
+                "elasticloadbalancing:CreateLoadBalancer",
+                "elasticloadbalancing:CreateRule",
+                "elasticloadbalancing:DeleteListener",
+                "elasticloadbalancing:DeleteLoadBalancer",
+                "elasticloadbalancing:DeleteRule",
+                "elasticloadbalancing:DeregisterTargets",
+                "elasticloadbalancing:Describe*",
                 "elasticloadbalancing:Modify*",
                 "elasticloadbalancing:RegisterTargets",
-                "elasticloadbalancing:Set*",
                 "elasticloadbalancing:RemoveListenerCertificates",
-                "elasticloadbalancing:DeleteLoadBalancer",
-                "elasticloadbalancing:Describe*",
-                "elasticloadbalancing:CreateListener",
-                "elasticloadbalancing:CreateRule",
-                "elasticloadbalancing:DeleteRule",
-                "elasticloadbalancing:CreateLoadBalancer",
-                "elasticloadbalancing:*TargetGroup",
-                "elasticloadbalancing:DeregisterTargets",
-                "elasticloadbalancing:*Tags",
-                "elasticloadbalancing:DeleteListener",
+                "elasticloadbalancing:Set*",
                 "events:Describe*",
                 "events:List*",
                 "events:TestEventPattern",
-                "iam:List*",
                 "iam:Get*",
-                "logs:List*",
+                "iam:List*",
                 "logs:Describe*",
+                "logs:FilterLogEvents",
                 "logs:Get*",
+                "logs:List*",
                 "logs:StartQuery",
                 "logs:StopQuery",
                 "logs:TestMetricFilter",
-                "logs:FilterLogEvents",
                 "resource-groups:Get*",
                 "resource-groups:List*",
                 "resource-groups:SearchResources",
-                "ssm:List*",
-                "ssm:Describe*",
-                "ssm:Get*",
-                "ssm:PutInventory",
-                "ssm:PutComplianceItems",
-                "ssm:PutConfigurePackageResult",
-                "ssm:UpdateAssociationStatus",
-                "ssm:UpdateInstanceAssociationStatus",
-                "ssm:UpdateInstanceInformation",
-                "ssm:CancelCommand",
-                "ssm:SendCommand",
-                "ssm:StartAutomationExecution",
-                "ssm:StartSession",
-                "ssm:TerminateSession",
-                "ssm:ResumeSession",
-                "ssm:DescribeSessions",
-                "ssm:GetConnectionStatus",
-                "sns:TagResource",
-                "sns:Delete*",
-                "sns:List*",
-                "sns:Unsubscribe",
-                "sns:Set*",
-                "sns:UntagResource",
-                "sns:OptInPhoneNumber",
-                "sns:CheckIfPhoneNumberIsOptedOut",
-                "sns:Publish",
-                "sns:Subscribe",
-                "sns:ConfirmSubscription",
-                "sns:RemovePermission",
-                "sns:Get*",
-                "sns:Create*",
                 "sns:AddPermission",
+                "sns:CheckIfPhoneNumberIsOptedOut",
+                "sns:ConfirmSubscription",
+                "sns:Create*",
+                "sns:Delete*",
+                "sns:Get*",
+                "sns:List*",
+                "sns:OptInPhoneNumber",
+                "sns:Publish",
+                "sns:RemovePermission",
+                "sns:Set*",
+                "sns:Subscribe",
+                "sns:TagResource",
+                "sns:Unsubscribe",
+                "sns:UntagResource",
+                "ssm:*AssociateOpsItemRelatedItem",
+                "ssm:*Parameter*",
+                "ssm:*register*",
+                "ssm:*Tags*",
+                "ssm:Cancel*",
+                "ssm:Create*",
+                "ssm:Delete*",
+                "ssm:ModifyDocumentPermission",
+                "ssm:Put*",
+                "ssm:ResetServiceSetting",
+                "ssm:ResumeSession",
+                "ssm:Send*",
+                "ssm:Start*",
+                "ssm:StopAutomationExecution",
+                "ssm:TerminateSession",
+                "ssm:Update*",
+                "ssmmessages:Create*",
+                "ssmmessages:Open*",
                 "sts:DecodeAuthorizationMessage",
                 "tag:*"
             ],
@@ -147,40 +158,85 @@
             "Sid": "RestrictInstanceActions",
             "Effect": "Allow",
             "Action": [
-               "ec2:CreateVolume",
-               "ec2:EnableVolumeIO",
-               "ec2:ImportVolume",
-               "ec2:ImportSnapshot",
-               "ec2:ImportInstance",
-               "ec2:*LaunchTemplate*",
-               "ec2:ModifyVolume*",
-               "ec2:RunInstances",
-               "ec2:StartInstances"
+                "ec2:CreateFleet",
+                "ec2:CreateLaunchTemplate",
+                "ec2:CreateLaunchTemplateVersion",
+                "ec2:CreateVolume",
+                "ec2:EnableVolumeIO",
+                "ec2:ImportInstance",
+                "ec2:ImportSnapshot",
+                "ec2:ImportVolume",
+                "ec2:ModifyFleet",
+                "ec2:ModifyInstanceAttribute",
+                "ec2:ModifyInstanceCreditSpecification",
+                "ec2:ModifyLaunchTemplate",
+                "ec2:ModifyVolume",
+                "ec2:ModifyVolumeAttribute",
+                "ec2:RebootInstances",
+                "ec2:ResetInstanceAttribute",
+                "ec2:RunInstances",
+                "ec2:StartInstances"
             ],
             "Resource": "*",
             "Condition": {
                 "StringEqualsIfExists": {
                     "ec2:Owner": "amazon"
                 },
-                "ForAllValues:StringLikeIfExists": {
+                "StringLikeIfExists": {
                     "ec2:InstanceType": [
-                        "*.nano",
-                        "*.micro",
-                        "*.small"
+                        "t*.nano",
+                        "t*.micro",
+                        "t*.small"
                     ],
                     "ec2:Tenancy": "default"
                 },
                 "StringNotEqualsIfExists": {
                     "ec2:PlacementGroupStrategy": "cluster"
                 },
-                "StringNotEqualsIgnoreCaseIfExists": {
+                "StringNotLikeIfExists": {
                     "ec2:VolumeType": [
-                        "io1",
-                        "st1"
+                        "io*",
+                        "st*"
                     ]
                 },
                 "NumericLessThanEqualsIfExists": {
-                    "ec2:VolumeSize": "101"
+                    "ec2:VolumeSize": "100"
+                }
+            }
+        },
+        {
+            "Sid": "RestrictASGGroup",
+            "Effect": "Allow",
+            "Action": [
+                "autoscaling:CreateAutoScalingGroup",
+                "autoscaling:UpdateAutoScalingGroup"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringLikeIfExists": {
+                    "autoscaling:InstanceTypes": [
+                        "t*.nano",
+                        "t*.micro",
+                        "t*.small"
+                    ]
+                },
+                "NumericLessThanEqualsIfExists": {
+                    "autoscaling:MaxSize": "4"
+                }
+            }
+        },
+        {
+            "Sid": "RestrictASGConfig",
+            "Effect": "Allow",
+            "Action": "autoscaling:CreateLaunchConfiguration",
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "autoscaling:InstanceType": [
+                        "t*.nano",
+                        "t*.micro",
+                        "t*.small"
+                    ]
                 }
             }
         },
@@ -188,69 +244,50 @@
             "Sid": "RestrictActions",
             "Effect": "Deny",
             "Action": [
-                "ec2:*Spot*",
+                "ec2:*Fpga*",
+                "ec2:*Purchase*",
                 "ec2:*ReservedInstances*",
                 "ec2:*Scheduled*",
-                "ec2:*Purchase*",
+                "ec2:*Spot*",
+                "ec2:AcceptVpcEndpointConnections",
+                "ec2:AttachVpnGateway",
+                "ec2:CreateCapacityReservation",
+                "ec2:CreateVpnGateway",
                 "ec2:EnableFastSnapshotRestores"
             ],
             "Resource": "*"
         },
         {
-            "Sid": "RestrictASLCInstanceType",
+            "Sid": "AllowServiceLinkedRoleCreation",
             "Effect": "Allow",
-            "Action": "autoscaling:CreateLaunchConfiguration",
-            "Resource": "*",
+            "Action": "iam:CreateServiceLinkedRole",
+            "Resource": "arn:aws:iam::*:role/aws-service-role/*",
             "Condition": {
-                "ForAnyValue:StringNotLikeIfExists": {
-                    "autoscaling:InstanceTypes": [
-                        "*.nano",
-                        "*.micro",
-                        "*.small"
+                "StringLikeIfExists": {
+                    "iam:AWSServiceName": [
+                        "autoscaling.amazonaws.com",
+                        "ec2.amazonaws.com",
+                        "elasticloadbalancing.amazonaws.com"
                     ]
                 }
             }
         },
         {
-            "Sid": "RestrictASGInstanceTypeAndNo",
+            "Sid": "PassRoleAndPolicies",
             "Effect": "Allow",
-            "Action": [
-                "autoscaling:UpdateAutoScalingGroup",
-                "autoscaling:CreateAutoScalingGroup"
-            ],
-            "Resource": "*",
-            "Condition": {
-              "NumericLessThanEqualsIfExists": {
-                  "autoscaling:MaxSize": 6
-              },
-              "ForAllValues:StringLikeIfExists": {
-                  "autoscaling:InstanceTypes": [
-                      "*.nano",
-                      "*.micro",
-                      "*.small"
-                  ]
-              }
-            }
-        },
-        {
-            "Sid": "ServiceLinkedRoleAndPolicies",
-            "Effect": "Allow",
-            "Action": [
-                "iam:AttachRolePolicy",
-                "iam:PutRolePolicy",
-                "iam:CreateInstanceProfile",
-                "iam:CreateRole",
-                "iam:CreateServiceLinkedRole",
-                "iam:DetachRolePolicy",
-                "iam:PassRole"
-            ],
+            "Action": "iam:PassRole",
             "Resource": "*",
             "Condition": {
                 "StringLikeIfExists": {
-                    "iam:AWSServiceName": [
+                    "iam:PassedToService": [
+                        "autoscaling.amazonaws.com",
                         "ec2.amazonaws.com",
-                        "elasticloadbalancing.amazonaws.com",
-                        "autoscaling.amazonaws.com"
+                        "elasticloadbalancing.amazonaws.com"
+                    ],
+                    "iam:AWSServiceName": [
+                        "autoscaling.amazonaws.com",
+                        "ec2.amazonaws.com",
+                        "elasticloadbalancing.amazonaws.com"
                     ]
                 }
             }

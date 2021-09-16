@@ -39,32 +39,28 @@
                 "logs:StopQuery",
                 "logs:TestMetricFilter",
                 "logs:FilterLogEvents",
+                "rds:*ActivityStream",
+                "rds:*AvailabilityZone*",
+                "rds:*Backup*",
+                "rds:*Cluster",
+                "rds:*DBProxy*",
+                "rds:*Event*",
+                "rds:*Export*",
+                "rds:*Group*",
+                "rds:*MaintenanceAction",
+                "rds:*Region*",
+                "rds:*Snapshot*",
+                "rds:*Tag*",
+                "rds:Add*",
                 "rds:Delete*",
-                "rds:*ParameterGroup",
                 "rds:Describe*",
-                "rds:*DBSubnetGroup",
-                "rds:DownloadDBLogFilePortion",
-                "rds:AddRoleToDBCluster",
-                "rds:*Snapshot",
-                "rds:*SecurityGroup*",
-                "rds:CreateEventSubscription",
-                "rds:FailoverDBCluster",
-                "rds:AddRoleToDBInstance",
-                "rds:*Tags*",
-                "rds:ModifyEventSubscription",
-                "rds:ApplyPendingMaintenanceAction",
-                "rds:BacktrackDBCluster",
-                "rds:Remove*",
-                "rds:*OptionGroup",
-                "rds:AddSourceIdentifierToSubscription",
-                "rds:CreateDBClusterEndpoint",
-                "rds:StopDBCluster",
+                "rds:Download*",
+                "rds:ImportInstallationMedia",
+                "rds:ModifyCertificates",
                 "rds:PromoteReadReplica",
-                "rds:StopActivityStream",
-                "rds:StartActivityStream",
-                "rds:RestoreDBClusterToPointInTime",
-                "rds:StopDBInstance",
-                "rds:DownloadCompleteDBLogFile",
+                "rds:Remove*",
+                "rds:Restore*",
+                "rds:StopDBInstance*",
                 "resource-groups:Get*",
                 "resource-groups:List*",
                 "resource-groups:SearchResources",
@@ -81,22 +77,9 @@
             "Action": [
                 "rds:CreateDBInstance",
                 "rds:CreateDBInstanceReadReplica",
-                "rds:StartDBInstance",
                 "rds:ModifyDBInstance",
                 "rds:RebootDBInstance",
-                "rds:RestoreDBInstanceFromDBSnapshot",
-                "rds:RestoreDBInstanceFromS3",
-                "rds:RestoreDBInstanceToPointInTime",
-                "rds:CreateDBCluster",
-                "rds:StartDBCluster",
-                "rds:ModifyDBCluster",
-                "rds:CreateGlobalCluster",
-                "rds:ModifyDBClusterEndpoint",
-                "rds:ModifyGlobalCluster",
-                "rds:RestoreDBClusterFromS3",
-                "rds:RestoreDBClusterFromSnapshot",
-                "rds:ModifyCurrentDBClusterCapacity",
-                "rds:PromoteReadReplicaDBCluster"
+                "rds:StartDBInstance"
             ],
             "Resource": "*",
             "Condition": {
@@ -109,22 +92,17 @@
                         "mariadb"
                     ],
                     "rds:DatabaseClass": [
-                        "*.nano",
-                        "*.micro",
-                        "*.small",
-                        "*.medium"
+                        "db.t*.nano",
+                        "db.t*.micro",
+                        "db.t*.small",
+                        "db.t*.medium"
                     ]
                 },
-                "NumericLessThanIfExists": {
-                    "rds:StorageSize": "101"
+                "NumericLessThanEqualsIfExists": {
+                    "rds:StorageSize": "100"
                 },
                 "NumericEqualsIfExists": {
                     "rds:Piops": "0"
-                },
-                "BoolIfExists": {
-                    "rds:MultiAz": [
-                        false
-                    ]
                 }
             }
         },
@@ -140,11 +118,7 @@
             "Sid": "RDSRoleAndPolicies",
             "Effect": "Allow",
             "Action": [
-                "iam:AttachRolePolicy",
-                "iam:CreateInstanceProfile",
-                "iam:CreateRole",
                 "iam:CreateServiceLinkedRole",
-                "iam:DetachRolePolicy",
                 "iam:PassRole"
             ],
             "Resource": "*",
