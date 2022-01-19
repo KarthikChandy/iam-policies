@@ -24,7 +24,8 @@
                 "iam:CreateLoginProfile",
                 "iam:DeleteAccessKey",
                 "iam:DeleteLoginProfile",
-                "iam:UpdateAccessKey"
+                "iam:UpdateAccessKey",
+                "sts:DecodeAuthorizationMessage"
             ],
             "Effect": "Allow",
             "Resource": "*"

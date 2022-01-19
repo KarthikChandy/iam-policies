@@ -17,7 +17,8 @@
                 "cloud9:UpdateUserSettings",
                 "cloud9:Validate*",
                 "ec2:Describe*",
-                "ec2:*Subnet*"
+                "ec2:*Subnet*",
+                "sts:DecodeAuthorizationMessage"
             ],
             "Resource": "*"
         },

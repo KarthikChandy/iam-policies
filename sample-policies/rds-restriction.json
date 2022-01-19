@@ -4,8 +4,8 @@
 # CloudFormation - read-only
 # CloudWatch - All read-only access
 # ResourceGroups - Read-only
-# RDS actions restricted to db instance type, engine, billing, multi-zone requirements, volume size and type, 
-# Certain RDS activities such as subnet group and security groups access/creation would require EC2 access as well. In this example, EC2 read access and some basic ec2 actions are provided. 
+# RDS actions restricted to db instance type, engine, billing, multi-zone requirements, volume size and type,
+# Certain RDS activities such as subnet group and security groups access/creation would require EC2 access as well. In this example, EC2 read access and some basic ec2 actions are provided.
 ########### START DELETE HERE ###########
 
 {
@@ -61,9 +61,12 @@
                 "rds:Remove*",
                 "rds:Restore*",
                 "rds:StopDBInstance*",
+                "rds-data:*",
                 "resource-groups:Get*",
                 "resource-groups:List*",
                 "resource-groups:SearchResources",
+                "secretsmanager:CreateSecret",
+                "sts:DecodeAuthorizationMessage",
                 "tag:Get*",
                 "tag:UntagResources",
                 "tag:TagResources"
@@ -121,7 +124,7 @@
                 "iam:CreateServiceLinkedRole",
                 "iam:PassRole"
             ],
-            "Resource": "*",
+            "Resource": "arn:aws:iam::*:role/aws-service-role/*",
             "Condition": {
                 "StringLikeIfExists": {
                     "iam:AWSServiceName": "rds.amazonaws.com",

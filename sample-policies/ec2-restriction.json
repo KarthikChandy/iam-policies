@@ -26,6 +26,7 @@
                 "cloudwatch:Describe*",
                 "cloudwatch:Get*",
                 "cloudwatch:List*",
+                "compute-optimizer:Get*",
                 "ec2:*Address*",
                 "ec2:*Bundle*",
                 "ec2:*Cidr*",
@@ -105,6 +106,7 @@
                 "ssm:TerminateSession",
                 "ssm:ResumeSession",
                 "sns:ListTopics",
+                "sts:DecodeAuthorizationMessage",
                 "tag:*"
             ],
             "Resource": "*"
