@@ -121,14 +121,25 @@
             "Sid": "RDSRoleAndPolicies",
             "Effect": "Allow",
             "Action": [
-                "iam:CreateServiceLinkedRole",
                 "iam:PassRole"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringLikeIfExists": {
+                    "iam:PassedToService": "rds.amazonaws.com"
+                }
+            }
+        },
+        {
+            "Sid": "RDSRoleAndPolicies",
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateServiceLinkedRole"
             ],
             "Resource": "arn:aws:iam::*:role/aws-service-role/*",
             "Condition": {
                 "StringLikeIfExists": {
-                    "iam:AWSServiceName": "rds.amazonaws.com",
-                    "iam:PassedToService": "rds.amazonaws.com"
+                    "iam:AWSServiceName": "rds.amazonaws.com"
                 }
             }
         }

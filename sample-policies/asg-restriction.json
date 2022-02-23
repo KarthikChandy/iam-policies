@@ -283,11 +283,6 @@
                         "autoscaling.amazonaws.com",
                         "ec2.amazonaws.com",
                         "elasticloadbalancing.amazonaws.com"
-                    ],
-                    "iam:AWSServiceName": [
-                        "autoscaling.amazonaws.com",
-                        "ec2.amazonaws.com",
-                        "elasticloadbalancing.amazonaws.com"
                     ]
                 }
             }

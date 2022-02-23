@@ -62,9 +62,6 @@
                 "StringLikeIfExists": {
                     "iam:PassedToService": [
                         "cloud9.amazonaws.com"
-                    ],
-                    "iam:AWSServiceName": [
-                        "cloud9.amazonaws.com"
                     ]
                 }
             }

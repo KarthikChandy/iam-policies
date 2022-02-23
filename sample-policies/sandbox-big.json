@@ -305,6 +305,7 @@
                 "ec2:CreateCapacityReservation",
                 "ec2:CreateVpnGateway",
                 "ec2:EnableFastSnapshotRestores",
+                "elasticache:Purchase*",
                 "glacier:*VaultLock",
                 "glacier:SetVaultAccessPolicy",
                 "rds:Purchase*",
@@ -490,23 +491,6 @@
             "Condition": {
                 "StringLikeIfExists": {
                     "iam:PassedToService": [
-                        "application-autoscaling.amazonaws.com*",
-                        "athena.amazonaws.com",
-                        "autoscaling.amazonaws.com",
-                        "cloud9.amazonaws.com",
-                        "cognito.amazonaws.com",
-                        "ec2.amazonaws.com",
-                        "ecr.amazonaws.com",
-                        "ecs.amazonaws.com",
-                        "elasticloadbalancing.amazonaws.com",
-                        "glue.amazonaws.com",
-                        "lambda.amazonaws.com",
-                        "monitoring.rds.amazonaws.com",
-                        "rds.amazonaws.com",
-                        "sagemaker.amazonaws.com",
-                        "ssm.amazonaws.com"
-                    ],
-                    "iam:AWSServiceName": [
                         "application-autoscaling.amazonaws.com*",
                         "athena.amazonaws.com",
                         "autoscaling.amazonaws.com",
